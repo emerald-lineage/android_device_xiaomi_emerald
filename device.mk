@@ -206,6 +206,21 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     debug.sf.frame_rate_category_mrr=1
 
+# SurfaceFlinger log churn: the stock MTK mapper (mapper.mediatek.so, loaded into the surfaceflinger
+# process) answers UNSUPPORTED to some buffer metadata query that SF makes on every composed frame and
+# logs it as an error. It logs with the *default* liblog tag, which is the process name in lower case
+# ("surfaceflinger"), while SF's own messages use "SurfaceFlinger" - so raising the minimum level for
+# the lower-case tag hides the spam and keeps SF's logs. Measured on 2.18 (2026-11-06): 61,485 lines in
+# 19 h, up to ~400 lines/s while scrolling, ~1-6/s on a static screen. Not the CWB/disp-dump feature:
+# with persist.vendor.debug.cwb.disable=1 the dump requests stop (0) and the errors stay, so the cause
+# is the per-frame metadata query, not the sensor service capture. No visual or performance effect was
+# found; the cost is log churn (useful lines rotate out in 20-40 min). Verified on 2.18 through setprop
+# (2026-11-06): 0 lines during a scroll burst, 12 of SF's own lines kept.
+# Trade-off: error/warning lines from other vendor libs inside the surfaceflinger process that log with
+# the default tag are hidden too.
+PRODUCT_SYSTEM_PROPERTIES += \
+    log.tag.surfaceflinger=F
+
 # Max / min refresh rate lists in Settings > Display and the fingerprint enroll ring size
 # (SettingsResOverlayEmerald).
 PRODUCT_PACKAGES += \
