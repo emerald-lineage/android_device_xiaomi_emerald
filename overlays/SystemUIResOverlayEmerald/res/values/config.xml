@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: The LineageOS Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- The stock fingerprint HAL lights the sensor and captures on any finger in the sensor area
+         while it is told a capture is wanted (EmeraldUdfps), so SystemUI's touch handling doesn't
+         stop it. With an app over the lock screen and the screen on (a call), the in-call end
+         button over the sensor lit it and unlocked behind the call (B10, 2026-11-07). Stock
+         OS3.0.305.0 MiuiSystemUI does the same: no fingerprint listening while occluded and
+         interactive on under-display sensors. Screen-off unlock still listens. -->
+    <bool name="config_udfpsListenWhenOccluded">false</bool>
+</resources>
