@@ -182,8 +182,16 @@ PATCHES = {
          "(allow hal_lineage_livedisplay_emerald vendor_livedisplay_prop "
          "(property_service (set)))\n"
          "(allow hal_lineage_livedisplay_emerald vendor_livedisplay_prop "
-         "(file (read getattr map open)))\n",
-         "9ccd99090754dd80d770625cb942d7a33060497dd9ef00748933172f146cd006"),
+         "(file (read getattr map open)))\n"
+         # B3/B4: the stock vendor policy keeps ChargerLogger (hal_misys_vendor_default) from appending its
+         # CSV in /data/vendor/bsplog/charge_logger (vendor_data_file), mtk_hal_power from writing boost in
+         # sysfs_therm, and mi_thermald from searching disp-DSI-0 (vendor_sysfs_displayfeature): 175, 7 and
+         # 12 denials in 36 minutes on 2.21. All three are stock types, nothing new is labeled, and the
+         # rest of the compiled policy is unchanged (checked offline with secilc, see the comment above).
+         "(allow hal_misys_vendor_default vendor_data_file (file (append)))\n"
+         "(allow mtk_hal_power sysfs_therm (file (write)))\n"
+         "(allow mi_thermald vendor_sysfs_displayfeature (dir (search)))\n",
+         "3d1c6cd51ee5c737339c776ec8961b31a638678a893f5438f91e41072a9b2df9"),
         ("append", "/etc/selinux/vendor_file_contexts",
          "/(vendor|system/vendor)/bin/hw/vendor\\.lineage\\.health-service\\.default "
          "u:object_r:hal_lineage_health_default_exec:s0\n"
