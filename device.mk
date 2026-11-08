@@ -234,6 +234,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.surface_flinger.supports_background_blur=1
 
+# Less blur work in the launcher. With the window-level blur on, the all-apps list is expensive: the
+# workspace behind it is blurred twice (the window blur and LauncherDepthController's own blur of the
+# wallpaper, because the all-apps surface is not in its own window) and every frame is composited by the
+# GPU. Launcher3's own switch (aconfig reduce_workspace_blur_usage, resource false in AOSP) keeps the
+# shade, Recents, folders and popups blurred but drops the workspace blur, its reduction and the wallpaper
+# zoom in the all-apps list and the widget picker. Measured on 2.21 without a build (08.11, adb overlay,
+# gfxinfo + SurfaceFlinger --timestats, logs/phone/2026-11-08-1831-blur/): janky frames at 120 Hz
+# 10-11 % -> 1-2 %, p90 frame 46 ms -> 13 ms. The switch itself (radius, algorithm) is not worth touching.
+PRODUCT_PACKAGES += \
+    Launcher3ResOverlayEmerald
+
 # Fingerprint (stock HAL): FOD touch mode + scanner state, and the UDFPS icon size / illumination
 # overlays. The /dev/mi_display node for local HBM comes from system/core (clean-2 branch: the
 # mi_display rule in rootdir/ueventd.rc; init reads only /system/etc/ueventd.rc). Same as clean-1.2.1,

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Do not blur the workspace (and do not zoom the wallpaper) behind the all-apps list and the
+         widget picker. The flag is a resource-backed aconfig flag of Launcher3 (aconfig/launcher.aconfig);
+         AOSP ships it false. The shade, Recents, folders and popups keep their blur. See device.mk. -->
+    <bool name="reduce_workspace_blur_usage">true</bool>
+</resources>
