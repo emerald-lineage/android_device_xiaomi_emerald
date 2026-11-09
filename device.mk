@@ -245,6 +245,16 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PACKAGES += \
     Launcher3ResOverlayEmerald
 
+# Updater links: the "Последние изменения" button, the "LineageOS downloads" menu entry and the
+# "Сообщить о проблемах" button point at download.lineageos.org / the LineageOS wiki. There is no page
+# for our unofficial emerald builds (404, seen on 2.22), and the bug tracker is not ours. All three are
+# plain string resources (menu_changelog_url, menu_downloads_url, report_issue_url), so a static RRO is
+# enough — no Updater fork. Updater declares no <overlayable>, which idmap2 accepts for a preinstalled
+# overlay (kDefaultPolicies in ResourceMapping.cpp). Strings for the release page and the 4PDA thread:
+# overlays/UpdaterResOverlayEmerald/res/values/strings.xml.
+PRODUCT_PACKAGES += \
+    UpdaterResOverlayEmerald
+
 # Fingerprint (stock HAL): FOD touch mode + scanner state, and the UDFPS icon size / illumination
 # overlays. The /dev/mi_display node for local HBM comes from system/core (clean-2 branch: the
 # mi_display rule in rootdir/ueventd.rc; init reads only /system/etc/ueventd.rc). Same as clean-1.2.1,

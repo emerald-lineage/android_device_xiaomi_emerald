@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- The Updater links every changelog and download entry to download.lineageos.org, which has no
+         page for our unofficial emerald builds (404). Point them at our release page instead; the
+         "Последние изменения" button then opens the release note of the installed build. See device.mk. -->
+    <string name="menu_changelog_url" translatable="false">https://github.com/RamDll/emerald-ota/releases/latest</string>
+    <string name="menu_downloads_url" translatable="false">https://github.com/RamDll/emerald-ota/releases/latest</string>
+    <!-- LineageOS bugreport wiki instead of our tracker. -->
+    <string name="report_issue_url" translatable="false">https://4pda.to/forum/index.php?showtopic=117304</string>
+</resources>
