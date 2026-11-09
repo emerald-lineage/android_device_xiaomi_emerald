@@ -190,8 +190,11 @@ PATCHES = {
          # rest of the compiled policy is unchanged (checked offline with secilc, see the comment above).
          "(allow hal_misys_vendor_default vendor_data_file (file (append)))\n"
          "(allow mtk_hal_power sysfs_therm (file (write)))\n"
-         "(allow mi_thermald vendor_sysfs_displayfeature (dir (search)))\n",
-         "3d1c6cd51ee5c737339c776ec8961b31a638678a893f5438f91e41072a9b2df9"),
+         "(allow mi_thermald vendor_sysfs_displayfeature (dir (search)))\n"
+         # B4 follow-up: with the search allowed, the daemon gets to the file and reads the brightness
+         # clone (1 denial a day on 2.22). Same stock types as above.
+         "(allow mi_thermald vendor_sysfs_displayfeature (file (read open getattr)))\n",
+         "d922f387dafeda2978baaccfe0def355d1db6effe1c6fc4181a91dcaaf6435f6"),
         ("append", "/etc/selinux/vendor_file_contexts",
          "/(vendor|system/vendor)/bin/hw/vendor\\.lineage\\.health-service\\.default "
          "u:object_r:hal_lineage_health_default_exec:s0\n"
