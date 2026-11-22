@@ -5,23 +5,89 @@
 -->
 <!-- Named by port, not by display id, so it applies to both emerald panels.
 
-     The backlight goes through the AOSP lights HAL: LightsService sends 1 + 254 * brightness (8 bit) and the stock
-     HAL writes about 1..2047 to lcd-backlight. Brightness 1.0 is the panel's factory maximum (factory_max_brightness
-     2047, 500 nits in the stock map); the HyperOS HBM range above it is not reachable this way. Level 1 is black, so
-     the first point is 1/254 = level 9 (stock minimum 8 of 4095 = 2 nits). Linear, like the stock map
-     (OS3.0.305.0 product/etc/displayconfig/display_id_4627039422300187648.xml, which assumes the 12 bit HyperOS path:
-     with it the manual maximum here was level 1024). Ambient light horizons as stock. -->
+     This is the stock map from the HyperOS 3 product/etc/displayconfig/display_id_4627039422300187648.xml
+     plus the block that lets the framework enter high brightness mode (port of the crDroid line's
+     device-tree change `5b19d7e`, verified on C1.8 19.11 with a flashlight: hbmMode=sunlight, backlight
+     written above 2047 up to 4095). The map was taken from the OS3.0.307.0 product file; the same
+     points (2 / 500 / 1000 nits, minimumLux 6001) were recorded from the stock product file in the
+     305 era too, and the vendor part of both stocks is byte-identical, so our 305 base gets the same
+     behaviour.
+
+     Scale: the stock lights HAL takes a 12-bit backlight level, our LightsService sends 1..4095
+     (frameworks/base, "Send a 12-bit backlight level" - since 2.23 the full panel DBV scale, before
+     it was 1..2047), and that level is the panel's DBV, linear with nits: stock minimum DBV 8 is the
+     2 nits point, PanelMaxDbv 2047 (end of the factory range, AAL logs "phy:2047/4095" at the slider
+     maximum) is 500 nits, and the HBM half of the range ends at DBV 4095 = 1000 nits. Brightness
+     values are absolute on that same scale, which is why the settings minimum 1/254 = level 17 sits
+     just above MiBrightness MinDBV=16 and the default 0.15 = level 615 (about 150 nits) is the
+     HyperOS default.
+
+     Until 2.22 the map stopped at 500 nits and there was no <highBrightnessMode>, so the framework
+     capped brightness at 500 nits and the HBM half of the range was unreachable (hbmMode=off in
+     every log; flashlight test 18.11: 43 420 lux, brt=1.0, nits=500). The lights patch also sent
+     1..2047, so the middle of the slider was twice darker than stock. With the block below the cap
+     is transitionPoint while the ambient light is dim and 1.0 (1000 nits) from 6001 lux up, which is
+     how the stock ROM reaches 1000 nits. The auto-brightness curve in FrameworksResOverlayEmerald is
+     in nits and was resampled from the stock one, so it keeps giving the same brightness below
+     500 nits and climbs to ~826 nits at 45 000 lux - no step at the HBM threshold.
+
+     Differences from the stock file: thermalStatusLimit is dropped, this framework version has no
+     such field (unknown elements are skipped; HBM is bounded by the regular brightness throttling
+     instead). The timing limits are not the stock zeros: the stock ROM leaves HBM timing to the
+     vendor service (hbmKeepOnMaxTime 1800 s, hbmRestTime 600 s), and that path is dead here (it
+     writes /sys/class/mi_display/disp-DSI-0/backlight, an attribute this kernel does not have), so
+     the framework enforces its own budget: at most 1800 s of HBM per hour, half the vendor duty
+     cycle. The thermalThrottling block caps brightness by thermal status, which also drops HBM: a
+     cap at the transition point means "no HBM", since the controller only keeps HBM while brightness
+     is above it. Horizon values as stock. -->
 <displayConfiguration>
     <screenBrightnessMap>
         <point>
-            <value>0.003937008</value>
+            <value>0.001709819</value>
             <nits>2.0</nits>
         </point>
         <point>
-            <value>1.0</value>
+            <value>0.49975574</value>
             <nits>500.0</nits>
         </point>
+        <point>
+            <value>1.0</value>
+            <nits>1000.0</nits>
+        </point>
     </screenBrightnessMap>
+    <thermalThrottling>
+        <brightnessThrottlingMap>
+            <brightnessThrottlingPoint>
+                <thermalStatus>severe</thermalStatus>
+                <brightness>0.49975574</brightness>
+            </brightnessThrottlingPoint>
+            <brightnessThrottlingPoint>
+                <thermalStatus>critical</thermalStatus>
+                <brightness>0.3</brightness>
+            </brightnessThrottlingPoint>
+        </brightnessThrottlingMap>
+    </thermalThrottling>
+    <highBrightnessMode enabled="true">
+        <transitionPoint>0.49975574</transitionPoint>
+        <minimumLux>6001</minimumLux>
+        <timing>
+            <timeWindowSecs>3600</timeWindowSecs>
+            <timeMaxSecs>1800</timeMaxSecs>
+            <timeMinSecs>60</timeMinSecs>
+        </timing>
+        <allowInLowPowerMode>true</allowInLowPowerMode>
+        <minimumHdrPercentOfScreen>0</minimumHdrPercentOfScreen>
+        <sdrHdrRatioMap>
+            <point>
+                <sdrNits>2.0</sdrNits>
+                <hdrRatio>1</hdrRatio>
+            </point>
+            <point>
+                <sdrNits>1000.0</sdrNits>
+                <hdrRatio>1</hdrRatio>
+            </point>
+        </sdrHdrRatioMap>
+    </highBrightnessMode>
     <ambientLightHorizonLong>3000</ambientLightHorizonLong>
     <ambientLightHorizonShort>1000</ambientLightHorizonShort>
 </displayConfiguration>

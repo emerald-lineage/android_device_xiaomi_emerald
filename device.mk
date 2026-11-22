@@ -146,7 +146,8 @@ PRODUCT_SYSTEM_PROPERTIES += \
 # Backlight: the stock light HAL takes a 12-bit level (color & 0xfff) only while this prop is set,
 # otherwise it maps an 8-bit luma to 1..2047 in steps of ~8, and the slider jumps at the bottom
 # (tester 2.16: the first 20 % = levels 9/17/25/33). frameworks/base clean-2 LightsService sends the
-# 12-bit level when it is set, on the same scale (min 9, max 2047). Readable only by the light HAL and
+# 12-bit level when it is set; the scale is the full panel DBV range 1..4095 since 2.23 (was 1..2047,
+# so every level below the factory maximum was half of stock). Readable only by the light HAL and
 # system_server (sepolicy/private/property.te).
 PRODUCT_SYSTEM_PROPERTIES += \
     ro.miui.ui.version.code=1

@@ -19,8 +19,10 @@
          com.android.dreams.alwaysondisplay, a HyperOS app we don't ship: DreamValidator rejected it at every screen off,
          so there was no doze and no notification pulse (2026-10-18). -->
     <string translatable="false" name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
-    <!-- AOSP default 0.0 = backlight 1/2047, a black pulse; the stock displayconfig has no doze brightness either.
-         SystemUI clamps it to the current user/auto brightness. Tested on 2.1 by bind mount: visible, not too dim. -->
+    <!-- AOSP default 0.0 = backlight 1/4095, a black pulse; the stock displayconfig has no doze brightness either.
+         SystemUI clamps it to the current user/auto brightness. Tested on 2.1 by bind mount: visible, not too dim.
+         Since the 4095 lights scale (2.23) 0.06 = level 262, about 63 nits - twice the pulse of 2.22 (level 123,
+         30 nits). If it is too bright at night, 0.03 restores the old one. -->
     <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.06</item>
     <!-- With auto-brightness on, the notification pulse uses the current auto-brightness instead of the fixed doze
          value above (that one stays for manual brightness). The light sensor runs only while the pulse is on, not with
@@ -36,9 +38,12 @@
     <integer name="config_autoBrightnessDarkeningLightDebounce">1000</integer>
     <!-- Brightness range for configs/displayconfig/display_port_0.xml (lights HAL scale). A17 DisplayDeviceConfig
          rejects the map (system_server crash) unless the setting minimum is >= its first backlight point; the stock
-         MTK vendor overlay sets 0.0. Minimum and dim = 1/254 = backlight level 9 (level 1 was black at the slider
-         minimum, tester 2026-10-15); default 0.15 = ~75 nits as stock (307 of 4095). Tested on clean-2.1 by bind
-         mount (2026-10-18): slider minimum level 9 also with auto-brightness, maximum 2047. -->
+         MTK vendor overlay sets 0.0. Minimum and dim = 1/254 = backlight level 17 (level 1 was black at the slider
+         minimum, tester 2026-10-15; 17 is also just above MiBrightness MinDBV=16, 4 nits). Default 0.15 = level 615,
+         about 150 nits, the stock default. The maximum is the HBM end of the panel range (4095 = 1000 nits) but the
+         framework only goes above 2047 (500 nits) from 6001 lux with auto-brightness, see the displayconfig. Before
+         2.23 the lights patch sent 1..2047, so the same numbers meant level 9 and 307: the slider middle was twice
+         darker than stock. -->
     <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.003937008</item>
     <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
     <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.15</item>
