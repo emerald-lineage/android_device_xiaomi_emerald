@@ -55,12 +55,20 @@ PRODUCT_PACKAGES += \
     fstab.mt6789
 
 # Files of the vendor partition that our tree provides instead of the stock blob (until 2.23 they were
-# written into the stock image by patch-images.py; the stock copies are excluded in proprietary-files.txt)
+# written into the stock image by patch-images.py; the stock copies are excluded in proprietary-files.txt).
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilts/health/android.hardware.health-service.mediatek:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.health-service.example \
-    $(LOCAL_PATH)/vintf/android.hardware.health-service.example.xml:$(TARGET_COPY_OUT_VENDOR)/etc/vintf/manifest/android.hardware.health-service.example.xml \
     $(LOCAL_PATH)/configs/media/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     $(LOCAL_PATH)/rootdir/etc/fstab.mt6789:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.mt6789
+
+# The health HAL is a module of the tree, not a file of ours: nothing in the product makefiles asks
+# for it, but the image needs one (else the battery and charging state are unknown). The AOSP example
+# HAL is what the stock 305 vendor ran; it reports the Xiaomi fuel gauge charge counter in mAh where
+# Android expects uAh (Settings showed 2 mAh) and the same maximum current on every charger, because
+# our fix was a prebuilt in prebuilts/health/. That prebuilt stays for patch-images.py (2.23 line); the
+# boot test decides whether 2.24 gets it back as a post-build patch or as PRODUCT_PACKAGES of
+# android.hardware.health-service.mediatek together with the ro.vendor.health.* options below.
+PRODUCT_PACKAGES += \
+    android.hardware.health-service.example
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/root/init.recovery.mt6789.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.mt6789.rc

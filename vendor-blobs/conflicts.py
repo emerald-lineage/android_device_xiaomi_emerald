@@ -53,7 +53,32 @@ for loc in re.findall(r'installed_location: "([^"]+)"',
                       open(os.path.join(DEV, 'vendor_symlinks/Android.bp')).read()):
     have.add('vendor/' + loc)
 
+def device_copies():
+    """PRODUCT_COPY_FILES самого дерева устройства: их цели kati тоже считает правилами."""
+    found = set()
+    for name in sorted(os.listdir(DEV)):
+        if not name.endswith('.mk'):
+            continue
+        text = open(os.path.join(DEV, name), encoding='utf-8', errors='replace').read().replace('\\\n', ' ')
+        for line in text.splitlines():
+            if ':' not in line or '$(TARGET_COPY_OUT_' not in line:
+                continue
+            for entry in line.split():
+                dst = entry.rsplit(':', 1)[-1]
+                dst = dst.replace('$(TARGET_COPY_OUT_VENDOR)', 'vendor').replace('$(TARGET_COPY_OUT_ODM)', 'odm')
+                if dst.startswith(('vendor/', 'odm/')):
+                    found.add(dst)
+    return found
+
 conflicts = 0
+for rel in sorted(device_copies()):
+    if rel in have:
+        continue                      # уже проверено выше, путь из списка блобов
+    platform = [s for s in rules.get(PREFIX + rel, ()) if not ours(s)]
+    if platform:
+        conflicts += 1
+        print(rel, '<-', platform[0], '(PRODUCT_COPY_FILES дерева устройства)')
+
 for target, srcs in sorted(rules.items()):
     rel = target[len(PREFIX):]
     if rel in have:
