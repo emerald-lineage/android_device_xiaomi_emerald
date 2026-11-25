@@ -47,3 +47,37 @@ python3 vendor-blobs/list.py                 # дописывает vendor-ча�
 исходный модуль для vendor (`vendor_available`, интерфейсы AIDL/HIDL), модуль с тем же именем в другой
 партиции (`system_ext`) и имена, недопустимые в soong (`@`, `[`). Отсюда переименование модулей и
 копирование файлов вместо модулей.
+
+## FROM_SOURCE — пути, которые ставит платформа
+
+Так soong ставит в vendor вариант каждого `vendor_available` модуля из `PRODUCT_PACKAGES`; блоб на тот же
+путь — ошибка kati «overriding commands for target». Выключить один раздел у модуля нельзя, поэтому такие
+пути в списке блобов не перечисляются (`FROM_SOURCE` в `list.py`), а файл в образ приходит из дерева.
+Сейчас их 401 (`/lib/...` и `/lib64/...` парами): AOSP и открытые MediaTek/NXP — `hardware/interfaces`,
+`hardware/mediatek`, `hardware/nxp`, `frameworks/*`, `system/*`.
+
+Семь путей наоборот остаются блобами: `libaedv`, `audio.bluetooth.default`,
+`vendor.mediatek.hardware.bluetooth.audio-V1-ndk` (обе битности) и `lib64/nfc_nci_nxp_snxxx_v2` — в стоке
+они собраны из проприетарных исходников MediaTek/NXP с другими флагами. Их платформенные модули не в
+`PRODUCT_PACKAGES` (приходят только зависимостями), поэтому отключаются через `overrides` в
+`../vendor-image/Android.bp`; модуль из `PRODUCT_PACKAGES` так не выключить — fsgen оставляет его
+установленным намеренно.
+
+Обновить список после сборки, которая сообщила новые дубли:
+
+```bash
+cd $HOME/lineage
+python3 - <<'EOF'
+import re, collections
+d = collections.defaultdict(list)
+for line in open('out/soong/installs-lineage_emerald.mk', errors='replace'):
+    m = re.match(r'^(out/target/product/emerald/\S+): (\S+)', line)
+    if m: d[m.group(1)].append(m.group(2))
+for k, v in sorted(d.items()):
+    if len(v) > 1:
+        print('/' + k.split('vendor/', 1)[1])
+EOF
+```
+
+Полученные строки дописать в `FROM_SOURCE` (отсортировать), затем повторить генерацию ниже; удалённые
+файлы блобов `extract-files.py` уберёт сам.

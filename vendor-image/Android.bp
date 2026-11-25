@@ -13,9 +13,17 @@
 // modules are dropped because the stock policy ships in /vendor/etc/selinux and BOARD_VENDOR_SEPOLICY_DIRS
 // is empty; the system, system_ext and product policy come from their own product makefiles. passwd/group
 // are dropped because the stock image ships them empty (0 bytes) and the source ones have real entries.
+//
+// audio.bluetooth.default, libaedv, nfc_nci_nxp_snxxx_v2 and vendor.mediatek.hardware.bluetooth.audio-V1-ndk
+// are here for the opposite reason: the stock blobs of those paths are built from MediaTek's (and NXP's)
+// own sources, so the image keeps them. None of the four is in PRODUCT_PACKAGES - soong installs their
+// vendor variants only as dependencies - and fsgen drops a dependency that an installed module overrides.
+// The device-wide `overrides` of a module that *is* in PRODUCT_PACKAGES is useless here: fsgen keeps such
+// a module installed on purpose (fsgen_mutators.go, isOverriddenModule).
 phony {
     name: "emerald_vendor_platform_override",
     overrides: [
+        "audio.bluetooth.default",
         "audio.primary.default",
         "boringssl_self_test_vendor",
         "com.android.hardware.cas",
@@ -24,6 +32,7 @@ phony {
         "group_odm",
         "group_vendor",
         "init_vendor",
+        "libaedv",
         "libaudiopreprocessing",
         "libbundlewrapper",
         "libclearkeycasplugin",
@@ -39,6 +48,7 @@ phony {
         "libril",
         "libvisualizer",
         "local_time.default",
+        "nfc_nci_nxp_snxxx_v2",
         "odm-build.prop",
         "passwd_odm",
         "passwd_vendor",
@@ -47,6 +57,7 @@ phony {
         "selinux_policy_odm",
         "selinux_policy_vendor",
         "shell_and_utilities_vendor",
+        "vendor.mediatek.hardware.bluetooth.audio-V1-ndk",
         "vendor_compatibility_matrix.xml",
         "vibrator.default",
     ],
