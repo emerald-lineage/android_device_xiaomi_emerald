@@ -145,11 +145,20 @@ BOARD_USES_METADATA_PARTITION := true
 -include vendor/lineage/config/BoardConfigReservedSize.mk
 
 # Stock vendor-side images (copied by extract-images.sh), used as they are except
-# vendor.img and vendor_dlkm.img, which get the fixes in patch-images.py
-BOARD_PREBUILT_VENDORIMAGE := $(IMAGES_PATH)/vendor.patched.img
+# vendor_dlkm.img, which gets the fixes in patch-images.py. The vendor partition itself is built from
+# vendor/xiaomi/emerald (stock 305 blobs + our files), see "vendor image" below.
 BOARD_PREBUILT_VENDOR_DLKMIMAGE := $(IMAGES_PATH)/vendor_dlkm.patched.img
 BOARD_PREBUILT_ODM_DLKMIMAGE := $(IMAGES_PATH)/odm_dlkm.img
 BOARD_PREBUILT_SYSTEM_DLKMIMAGE := $(IMAGES_PATH)/system_dlkm.img
+
+# Vendor image: built from the blobs (vendor/xiaomi/emerald) as erofs, the same size and format as the
+# stock one (777347072 bytes, EROFS+LZ4), so it fits the super partition the phone already has.
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := erofs
+BOARD_VENDORIMAGE_PARTITION_SIZE := 777347072
+
+# Owner/group/mode of the vendor partition as the stock image has them (gid shell, 0751 directories),
+# read from the image itself - see the file.
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/fs_config/emerald_fs_config
 
 # Recovery (in vendor_boot; stock fstab and pixel format)
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
@@ -159,10 +168,11 @@ TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USERIMAGES_USE_F2FS := true
 
 # SELinux: LineageOS' MediaTek policy, included whole as daylight/jagar and xelex/Q25 do.
-# On the phone the vendor policy is the stock one inside vendor.img; the vendor part built here
-# only goes into recovery and the build's own checks (system_ext file_contexts label
-# /data/log_wifi_temp with logtemp_data_file, which only base/vendor defines; stock vendor defines it too).
+# The vendor partition is built from the stock 305 blobs, so the vendor policy of the image is the
+# stock one (vendor_sepolicy.cil and the contexts files are blobs); LineageOS' MediaTek vendor .te
+# describes a vendor built from source and must not be compiled into it, hence the empty list below.
 include device/mediatek/sepolicy_vndr/SEPolicy.mk
+BOARD_VENDOR_SEPOLICY_DIRS :=
 
 # Compat map of the system_ext public types for the stock vendor's 202504 policy (see the file)
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private

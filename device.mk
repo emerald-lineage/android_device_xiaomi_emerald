@@ -54,6 +54,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.mt6789
 
+# Files of the vendor partition that our tree provides instead of the stock blob (until 2.23 they were
+# written into the stock image by patch-images.py; the stock copies are excluded in proprietary-files.txt)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/health/android.hardware.health-service.mediatek:$(TARGET_COPY_OUT_VENDOR)/bin/hw/android.hardware.health-service.example \
+    $(LOCAL_PATH)/vintf/android.hardware.health-service.example.xml:$(TARGET_COPY_OUT_VENDOR)/etc/vintf/manifest/android.hardware.health-service.example.xml \
+    $(LOCAL_PATH)/configs/media/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
+    $(LOCAL_PATH)/rootdir/etc/fstab.mt6789:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.mt6789
+
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/root/init.recovery.mt6789.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.mt6789.rc
 
@@ -71,10 +79,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/permissions/privapp-permissions-com.mediatek.ims.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-com.mediatek.ims.xml \
     $(LOCAL_PATH)/configs/permissions/privapp-permissions-com.mediatek.telephony.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-com.mediatek.telephony.xml
-
-# Library the stock VT blobs link against, built from source (stock ships it too)
-PRODUCT_PACKAGES += \
-    libhidltransport
 
 # MediaTek telephony overlays that hardware/mediatek builds for vendor, copied to product (see
 # overlays/*Product/Android.bp): MMTEL ImsService package, device VoLTE/VT/WFC availability.
@@ -349,3 +353,40 @@ $(call inherit-product, vendor/xiaomi/emerald/emerald-vendor.mk)
 # GApps (MindTheGapps cinnamonbun, vendor/gapps in the local manifest; user, 2026-10-14 and
 # 2026-10-15). Required: a build without them must fail instead of quietly shipping no Play services.
 $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    libeffectsconfig \
+    libsfplugin_ccodec_utils \
+    libstagefright_aidl_bufferpool2 \
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    libmnl \
+    libsysutils \
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.common.util \
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    libgrallocusage \
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    libstagefright_bufferqueue_helper \
+
+# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+PRODUCT_PACKAGES += \
+    libkeymaster4support \
+
+# The vendor partition ships the stock 305 policy in /vendor/etc/selinux (part of the blobs) and init
+# compiles it against our platform policy at boot. The build's own vendor policy would be plat-only
+# (LineageOS' MediaTek vendor .te describes a vendor built from source), so it must not be installed.
+# selinux_policy_nonsystem pulls the system_ext, product, vendor and odm policy plus the userdebug
+# ramdisk policy: the system_ext and product parts come from their own product makefiles and the odm
+# image does not exist here, so only the userdebug ramdisk policy is taken back explicitly.
+PRODUCT_PACKAGES += \
+    -selinux_policy_nonsystem \
+    userdebug_plat_sepolicy.cil

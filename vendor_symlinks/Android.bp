@@ -1,0 +1,35 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// The four symlinks of the stock 305 vendor.img whose names cannot be used as a soong module name
+// (`[`, `@`), so extract-utils leaves them out and they are written by hand here. Same installed
+// locations and targets as the stock image; the other 734 symlinks come from the blobs.
+install_symlink {
+    name: "vendor_bin_bracket",
+    soc_specific: true,
+    installed_location: "bin/[",
+    symlink_target: "/vendor/bin/toybox_vendor",
+}
+
+install_symlink {
+    name: "vendor_camera_provider_2_6_impl",
+    soc_specific: true,
+    installed_location: "lib64/hw/android.hardware.camera.provider@2.6-impl-mediatek.so",
+    symlink_target: "/vendor/lib64/hw/mt6789/android.hardware.camera.provider@2.6-impl-mediatek.so",
+}
+
+install_symlink {
+    name: "vendor_camera_ccap_1_0_impl",
+    soc_specific: true,
+    installed_location: "lib64/hw/vendor.mediatek.hardware.camera.ccap@1.0-impl.so",
+    symlink_target: "/vendor/lib64/hw/mt6789/vendor.mediatek.hardware.camera.ccap@1.0-impl.so",
+}
+
+install_symlink {
+    name: "vendor_camera_isphal_aidl_1_0_impl",
+    soc_specific: true,
+    installed_location: "lib64/hw/vendor.mediatek.hardware.camera.isphal_aidl@1.0-impl.so",
+    symlink_target: "/vendor/lib64/hw/mt6789/vendor.mediatek.hardware.camera.isphal_aidl@1.0-impl.so",
+}
