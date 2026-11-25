@@ -354,15 +354,13 @@ $(call inherit-product, vendor/xiaomi/emerald/emerald-vendor.mk)
 # 2026-10-15). Required: a build without them must fail instead of quietly shipping no Play services.
 $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
 
-# The vendor partition is the stock 305 file set, built from the blobs in vendor/xiaomi/emerald. The
-# platform's own vendor package set (base_vendor, media_vendor, handheld_vendor: toybox and the shell
-# utilities, the soundfx effect libraries, libril, the default HALs, the vintf compatibility matrix, init
-# and dumpsys) either overwrites a stock file with a different build or adds a file the stock image never
-# had, so it is not installed: vendor-image/Android.bp lists it in `overrides` of a phony module, which is
-# the only removal soong understands (PRODUCT_PACKAGES takes no "-module", and a filter-out in a product
-# makefile runs before the inherited lists are merged).
-PRODUCT_PACKAGES += \
-    emerald_vendor_platform_override
+# The vendor partition is the stock 305 file set, built from the blobs in vendor/xiaomi/emerald, except
+# for the paths the platform installs there itself (base_vendor, media_vendor, handheld_vendor: toybox
+# and the shell utilities, the soundfx effect libraries, libril, the default HALs, the vintf
+# compatibility matrix, init and dumpsys, and the AIDL/HIDL interface libraries every vendor module
+# depends on). Those paths are not shipped as blobs at all - `FROM_SOURCE` in vendor-blobs/list.py,
+# 25.11: two install rules for one path is a kati error, and `overrides` of a phony module does not
+# remove the platform's install rule (soong still emits it, only fsgen packing drops the module).
 
 # Static RROs of the stock vendor partition (modules in prebuilts/overlays/Android.bp: a prebuilt APK
 # cannot be a copy rule and android_app_import cannot install into /vendor/overlay).

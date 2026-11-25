@@ -168,11 +168,13 @@ TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_USERIMAGES_USE_F2FS := true
 
 # SELinux: LineageOS' MediaTek policy, included whole as daylight/jagar and xelex/Q25 do.
-# The vendor partition is built from the stock 305 blobs, so the vendor policy of the image is the
-# stock one (vendor_sepolicy.cil and the contexts files are blobs); LineageOS' MediaTek vendor .te
-# describes a vendor built from source and must not be compiled into it, hence the empty list below.
+# Since 25.11 the vendor policy of the image is built by the platform, not taken from the stock image
+# (option "the platform owns what it installs", the same rule as FROM_SOURCE in vendor-blobs/list.py:
+# the selinux files are install rules of system/sepolicy, two rules for one path do not pass kati).
+# So the MediaTek vendor .te is compiled in after all - the empty list that kept the stock policy was
+# the reason it was not. This is the part that needs a boot test: type names come from the MediaTek
+# source policy while the binaries are stock 305 (Android 16), a mismatch shows up as init denials.
 include device/mediatek/sepolicy_vndr/SEPolicy.mk
-BOARD_VENDOR_SEPOLICY_DIRS :=
 
 # Compat map of the system_ext public types for the stock vendor's 202504 policy (see the file)
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private

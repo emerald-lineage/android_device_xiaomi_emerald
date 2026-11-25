@@ -22,10 +22,17 @@ xargs -a /tmp/vendor305-paths.txt -d '\n' -P 8 -n 1 \
 
 ```bash
 cd $HOME/lineage/device/xiaomi/emerald
-git checkout -- proprietary-files.txt        # в файле живёт ещё system_ext-часть, её не трогаем
+# в файле обе части: system_ext (1-36) и vendor; list.py дописывает vendor-часть,
+# поэтому её сначала отрезаем, иначе в списке окажется два экземпляра
+git show HEAD:proprietary-files.txt | sed '/^# Vendor partition:/,$d' > proprietary-files.txt
 python3 vendor-blobs/list.py                 # дописывает vendor-часть
 ./extract-files.py -m --skip-firmware $HOME/lineage/out/scratch/vendor305-dump
 ```
+
+`list.py` берёт пути из `/tmp/opencode/vendor305-meta.tsv`. Если тот недописан (оборванный прогон
+`xargs`), список молча получится короче — сверять: `wc -l /tmp/opencode/vendor305-meta.tsv` должен быть
+равен числу строк `/tmp/opencode/vendor305-paths.txt` (6305), а после генерации — 4808 строк `vendor/`
+и 4808 файлов в `../../vendor/xiaomi/emerald/proprietary/vendor`.
 
 Дамп для `extract-files.py` — каталог с `system/`, `system_ext/` и `vendor/` (последний — распакованный
 образ). После генерации три строки `system_ext/...videotelephony@1.0...` дописывались вручную с
@@ -50,34 +57,56 @@ python3 vendor-blobs/list.py                 # дописывает vendor-ча�
 
 ## FROM_SOURCE — пути, которые ставит платформа
 
-Так soong ставит в vendor вариант каждого `vendor_available` модуля из `PRODUCT_PACKAGES`; блоб на тот же
-путь — ошибка kati «overriding commands for target». Выключить один раздел у модуля нельзя, поэтому такие
-пути в списке блобов не перечисляются (`FROM_SOURCE` в `list.py`), а файл в образ приходит из дерева.
-Сейчас их 401 (`/lib/...` и `/lib64/...` парами): AOSP и открытые MediaTek/NXP — `hardware/interfaces`,
-`hardware/mediatek`, `hardware/nxp`, `frameworks/*`, `system/*`.
+В vendor пишут двумя способами: soong ставит vendor-вариант каждого `vendor_available` модуля из
+`PRODUCT_PACKAGES` (и его зависимости), а `PRODUCT_COPY_FILES` сгенерированного `emerald-vendor.mk`
+копирует файл напрямую. Наш блоб на тот же путь — ошибка kati «overriding commands for target».
+Выключить это для одного раздела нельзя: у `PRODUCT_PACKAGES` нет синтаксиса «−модуль», `filter-out`
+в product-makefile выполняется до слияния унаследованных списков, а `overrides` (фониковый модуль)
+влияет только на упаковку fsgen — install-правило от самого модуля остаётся (проверено 25.11:
+`passwd_vendor` и `toolbox_vendor` так и остались установленными). Поэтому такие пути в списке блобов не
+перечисляются (`FROM_SOURCE` в `list.py`), а файл в образ приходит из дерева.
 
-Семь путей наоборот остаются блобами: `libaedv`, `audio.bluetooth.default`,
-`vendor.mediatek.hardware.bluetooth.audio-V1-ndk` (обе битности) и `lib64/nfc_nci_nxp_snxxx_v2` — в стоке
-они собраны из проприетарных исходников MediaTek/NXP с другими флагами. Их платформенные модули не в
-`PRODUCT_PACKAGES` (приходят только зависимостями), поэтому отключаются через `overrides` в
-`../vendor-image/Android.bp`; модуль из `PRODUCT_PACKAGES` так не выключить — fsgen оставляет его
-установленным намеренно.
+Сейчас их 647: 401 из первой волны (20 — конфликт имён модулей, 388 — названные kati на первом прогоне,
+прошедшем soong, 25.11 19:47, минус 7, которые тогда оставили блобами), 245 из статической сверки
+итогового списка с `installs-*.mk`, ещё 2 (`lib/mt6789/libmnl.so` обеих битностей — их ставит платформа,
+а наши симлинки на них давали второй `install_symlink`-дубль), минус `com.google.android.widevine.
+nonupdatable.apex` — его ставим только мы, он снова блоб. AOSP и открытые MediaTek/NXP:
+`hardware/interfaces`, `hardware/mediatek`, `hardware/nxp`, `frameworks/*`, `system/*`.
 
-Обновить список после сборки, которая сообщила новые дубли:
+Среди этих путей — стоковые `libaedv`, `audio.bluetooth.default`,
+`vendor.mediatek.hardware.bluetooth.audio-V1-ndk` (обе битности) и `nfc_nci_nxp_snxxx_v2`: в образе теперь
+сборка дерева (Android 17), а не стоковая из проприетарных исходников MTK/NXP. Это осознанный обмен
+(решение пользователя 25.11, вариант «платформа владеет тем, что ставит»): фониковый `overrides` kati не
+проходит, а вычитать отдельные модули из `PRODUCT_PACKAGES` нельзя.
+
+Обновить список после сборки, которая сообщила новые дубли, или для статической сверки:
 
 ```bash
 cd $HOME/lineage
 python3 - <<'EOF'
-import re, collections
-d = collections.defaultdict(list)
+import re, collections, os
+D = 'device/xiaomi/emerald'
+d = collections.defaultdict(set)
 for line in open('out/soong/installs-lineage_emerald.mk', errors='replace'):
-    m = re.match(r'^(out/target/product/emerald/\S+): (\S+)', line)
-    if m: d[m.group(1)].append(m.group(2))
+    m = re.match(r'^(out/target/product/emerald/(?:vendor|odm)/\S+): (\S+)', line)
+    if m: d[m.group(1)].add(m.group(2))
+paths = set()                                    # файлы + симлинки, наши правила
+for line in open(os.path.join(D, 'proprietary-files.txt')):
+    line = line.strip()
+    if not line or line.startswith('#'): continue
+    parts = line.split(';'); paths.add(parts[0])
+    for a in parts[1:]:
+        if a.startswith('SYMLINK='): paths.update(x for x in a[8:].split(',') if x)
+for loc in re.findall(r'installed_location: "([^"]+)"', open(os.path.join(D, 'vendor_symlinks/Android.bp')).read()):
+    paths.add('vendor/' + loc)
 for k, v in sorted(d.items()):
-    if len(v) > 1:
-        print('/' + k.split('vendor/', 1)[1])
+    rel = k[len('out/target/product/emerald/'):]
+    # свои правила (блоб-модуль, копия из блоб-репо) конфликтом не считаются
+    if rel in paths and any('emerald_blob_' not in s and 'vendor/xiaomi/emerald/' not in s for s in v):
+        print('/' + rel[len('vendor'):], '<-', sorted(v)[0])
 EOF
 ```
 
-Полученные строки дописать в `FROM_SOURCE` (отсортировать), затем повторить генерацию ниже; удалённые
-файлы блобов `extract-files.py` уберёт сам.
+Пути из вывода дописать в `FROM_SOURCE` (`list.py`) и перегенерировать список и блоб-репо: `list.py` сам
+`proprietary-files.txt` перезапишет, `extract-files.py` файлы **не удаляет** — лишние снять вручную
+(`find proprietary/vendor -type f`, которых нет в списке), и только потом повторить генерацию.

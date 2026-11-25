@@ -3,16 +3,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-// The four symlinks of the stock 305 vendor.img whose names cannot be used as a soong module name
-// (`[`, `@`), so extract-utils leaves them out and they are written by hand here. Same installed
-// locations and targets as the stock image; the other 734 symlinks come from the blobs.
-install_symlink {
-    name: "vendor_bin_bracket",
-    soc_specific: true,
-    installed_location: "bin/[",
-    symlink_target: "/vendor/bin/toybox_vendor",
-}
-
+// The three symlinks of the stock 305 vendor.img whose names cannot be used as a soong module name
+// (`@`), so extract-utils leaves them out and they are written by hand here. Same installed locations
+// and targets as the stock image; the other symlinks come from the blobs. `/vendor/bin/[` is not here
+// any more: the platform's toybox_vendor installs it (25.11, the platform owns what it installs).
 install_symlink {
     name: "vendor_camera_provider_2_6_impl",
     soc_specific: true,
