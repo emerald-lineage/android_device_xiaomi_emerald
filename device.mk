@@ -354,39 +354,28 @@ $(call inherit-product, vendor/xiaomi/emerald/emerald-vendor.mk)
 # 2026-10-15). Required: a build without them must fail instead of quietly shipping no Play services.
 $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
 
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+# The vendor partition is the stock 305 file set, built from the blobs in vendor/xiaomi/emerald. The
+# platform's own vendor package set (base_vendor, media_vendor, handheld_vendor: toybox and the shell
+# utilities, the soundfx effect libraries, libril, the default HALs, the vintf compatibility matrix, init
+# and dumpsys) either overwrites a stock file with a different build or adds a file the stock image never
+# had, so it is not installed: vendor-image/Android.bp lists it in `overrides` of a phony module, which is
+# the only removal soong understands (PRODUCT_PACKAGES takes no "-module", and a filter-out in a product
+# makefile runs before the inherited lists are merged).
 PRODUCT_PACKAGES += \
-    libeffectsconfig \
-    libsfplugin_ccodec_utils \
-    libstagefright_aidl_bufferpool2 \
+    emerald_vendor_platform_override
 
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
+# Static RROs of the stock vendor partition (modules in prebuilts/overlays/Android.bp: a prebuilt APK
+# cannot be a copy rule and android_app_import cannot install into /vendor/overlay).
 PRODUCT_PACKAGES += \
-    libmnl \
-    libsysutils \
-
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
-PRODUCT_PACKAGES += \
-    android.hardware.biometrics.common.util \
-
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
-PRODUCT_PACKAGES += \
-    libgrallocusage \
-
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
-PRODUCT_PACKAGES += \
-    libstagefright_bufferqueue_helper \
-
-# Source-built vendor variants instead of the stock blobs (see proprietary-files.txt)
-PRODUCT_PACKAGES += \
-    libkeymaster4support \
+    emerald_overlay_CellbroadcastUIResOverlay \
+    emerald_overlay_FrameworkResOverlay \
+    emerald_overlay_FrameworkResOverlayExt \
+    emerald_overlay_MtkSettingsResOverlay \
+    emerald_overlay_MtkTelephonyServiceResOverlay \
+    emerald_overlay_SettingsProviderResOverlay \
+    emerald_overlay_WifiResMainlineOverlay \
+    emerald_overlay_WifiResOverlay
 
 # The vendor partition ships the stock 305 policy in /vendor/etc/selinux (part of the blobs) and init
-# compiles it against our platform policy at boot. The build's own vendor policy would be plat-only
-# (LineageOS' MediaTek vendor .te describes a vendor built from source), so it must not be installed.
-# selinux_policy_nonsystem pulls the system_ext, product, vendor and odm policy plus the userdebug
-# ramdisk policy: the system_ext and product parts come from their own product makefiles and the odm
-# image does not exist here, so only the userdebug ramdisk policy is taken back explicitly.
-PRODUCT_PACKAGES += \
-    -selinux_policy_nonsystem \
-    userdebug_plat_sepolicy.cil
+# compiles it against our platform policy at boot. The compiled vendor policy is part of the platform
+# vendor set dropped above; BOARD_VENDOR_SEPOLICY_DIRS is empty for the same reason (BoardConfig.mk).

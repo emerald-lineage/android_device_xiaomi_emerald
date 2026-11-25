@@ -33,3 +33,19 @@ install_symlink {
     installed_location: "lib64/hw/vendor.mediatek.hardware.camera.isphal_aidl@1.0-impl.so",
     symlink_target: "/vendor/lib64/hw/mt6789/vendor.mediatek.hardware.camera.isphal_aidl@1.0-impl.so",
 }
+
+// The two symlinks of the stock vendor.img that extract-utils leaves out because their targets are not
+// files of the partition (a directory, and a path on vendor_dlkm).
+install_symlink {
+    name: "vendor_firmware_sensor",
+    soc_specific: true,
+    installed_location: "firmware/sensor",
+    symlink_target: "/vendor/etc/imgsensor/mt6789",
+}
+
+install_symlink {
+    name: "vendor_lib_modules",
+    soc_specific: true,
+    installed_location: "lib/modules",
+    symlink_target: "/vendor_dlkm/lib/modules",
+}

@@ -201,7 +201,16 @@ BOARD_AVB_VBMETA_VENDOR_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX := 1
 BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX_LOCATION := 3
 
-# VINTF: the device manifest and device matrix are the stock ones inside vendor.img.
+# VINTF: the device manifest, its fragments and the compatibility matrix are the stock 305 ones inside the
+# vendor partition (blobs in vendor/xiaomi/emerald). They are installed as plain files, not as VINTF
+# declarations of this build: they describe a vendor we do not compile, so the build must not validate or
+# merge them, and their file names (manifest.xml, android.hardware.audio.service-aidl.xml, ...) already
+# belong to modules of the source tree. This is the switch the build offers for exactly that case.
+# Same for the ELF files: the vendor binaries and libraries are prebuilts from the stock image, installed
+# as files, they do not participate in the build (no shared_libs of their own, no stripping).
+BUILD_BROKEN_VINTF_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+
 # Framework matrices: stock system and product fragments (Xiaomi/MediaTek vendor HALs).
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     $(DEVICE_PATH)/vintf/framework_compatibility_matrix_system.xml \
