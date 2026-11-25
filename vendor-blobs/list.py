@@ -16,7 +16,7 @@ Rules, all applied from scratch so the result does not depend on earlier fixes:
     (MODULE=emerald_blob_...) with the file name kept by stem, so a blob never fights a source module
     for the vendor partition (AIDL/HIDL interface libraries, vendor_available libraries);
   * libraries that exist in the tree only as system_ext modules are plain copies too;
-  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 647 of
+  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 651 of
     them): soong packs the vendor variant of every vendor_available module in PRODUCT_PACKAGES, and a
     second rule for the same path is a kati error.
 """
@@ -48,12 +48,12 @@ COPY_RULE_ONLY = {
 # makefile runs before the inherited lists are merged, and `overrides` only affects fsgen packing - the
 # install rule still comes from the module itself (checked 25.11: passwd_vendor and toybox_vendor stayed
 # installed while listed in `overrides` of the phony module we had). So these paths come from the source
-# tree, not from the image: 647 of them - 401 from the first wave (20 name clashes, 388 reported by kati
+# tree, not from the image: 651 of them - 401 from the first wave (20 name clashes, 388 reported by kati
 # on the first vendorimage build that got through soong, 25.11 19:47, minus 7 kept as blobs back then),
 # 245 found by comparing the final list against installs-lineage_emerald.mk (vendor paths this list
 # still wrote while the platform installed them, both module and copy-rule ones), 2 more libmnl
-# (mt6789 copies: the platform's libmnl.so clashed with our symlinks), and minus the Widevine apex,
-# which only we install, so it stays a blob.
+# (mt6789 copies: the platform's libmnl.so clashed with our symlinks), 4 vintf fragments the make side
+# copies for the platform HALs, and minus the Widevine apex, which only we install, so it stays a blob.
 #
 # The stock copies of libaedv, audio.bluetooth.default, vendor.mediatek.hardware.bluetooth.audio-V1-ndk
 # (both bitnesses) and nfc_nci_nxp_snxxx_v2 are built from MediaTek's and NXP's own sources, so the
@@ -165,6 +165,10 @@ FROM_SOURCE = {
     '/etc/vintf/manifest/android.hardware.drm-service.clearkey.xml',
     '/etc/vintf/manifest/android.hardware.sensors-multihal.xml',
     '/etc/vintf/manifest/android.hardware.wifi-service.xml',
+    '/etc/vintf/manifest/android.hardware.ir-service.example.xml',
+    '/etc/vintf/manifest/bluetooth_audio.xml',
+    '/etc/vintf/manifest/memtrack-mediatek.xml',
+    '/etc/vintf/manifest/nfc2-service-nxp.xml',
     '/etc/vintf/manifest/android.hardware.wifi.hostapd.xml',
     '/etc/vintf/manifest/android.hardware.wifi.supplicant.xml',
     '/lib/mt6789/libmnl.so',

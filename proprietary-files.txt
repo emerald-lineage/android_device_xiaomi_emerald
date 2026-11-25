@@ -37,6 +37,7 @@ system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 
 
 
+
 # Vendor partition: everything inside the stock OS3.0.305.0.WNFMIXM vendor.img (5222 files, 740 symlinks).
 # Source: a dump whose vendor/ directory is the image unpacked with fsck.erofs; build.prop is not
 # listed (the build writes it from vendor/xiaomi/emerald/vendor.prop). Four files come from the
@@ -46,7 +47,7 @@ system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 # names soong cannot use, and two whose targets are not files of the partition.
 # MODULE=emerald_blob_<name> keeps the file name (stem) while giving the prebuilt module a name no
 # module of the source tree has; MAKE_COPY_RULE_ONLY installs a file without a module.
-# 647 libraries are not listed: the platform installs its own build of them into the vendor image
+# 651 libraries are not listed: the platform installs its own build of them into the vendor image
 # (FROM_SOURCE in vendor-blobs/list.py, see there for why and for the ABI check).
 # The static RROs (/overlay/*.apk) are in the device tree: prebuilts/overlays/.
 vendor/apex/com.google.android.widevine.nonupdatable.apex
@@ -1281,13 +1282,11 @@ vendor/etc/vintf/manifest/android.hardware.audio.service-aidl.xml;MAKE_COPY_RULE
 vendor/etc/vintf/manifest/android.hardware.bluetooth-service-mediatek.xml
 vendor/etc/vintf/manifest/android.hardware.boot-service.mtk.xml
 vendor/etc/vintf/manifest/android.hardware.gatekeeper-service.mitee.xml
-vendor/etc/vintf/manifest/android.hardware.ir-service.example.xml;MAKE_COPY_RULE_ONLY
 vendor/etc/vintf/manifest/android.hardware.security.keymint-service.mitee.xml
 vendor/etc/vintf/manifest/android.hardware.security.secureclock-service.mitee.xml
 vendor/etc/vintf/manifest/android.hardware.security.sharedsecret-service.mitee.xml
 vendor/etc/vintf/manifest/android.hardware.usb-aidl-service.mediatek.xml
 vendor/etc/vintf/manifest/android.hardware.usb.gadget-aidl-service.mediatek.xml
-vendor/etc/vintf/manifest/bluetooth_audio.xml
 vendor/etc/vintf/manifest/dms-service.xml
 vendor/etc/vintf/manifest/dumpstate-xiaomi.xml
 vendor/etc/vintf/manifest/em_hal_service.xml
@@ -1304,13 +1303,11 @@ vendor/etc/vintf/manifest/manifest_media_c2_default.xml
 vendor/etc/vintf/manifest/manifest_mtkblackbox.xml
 vendor/etc/vintf/manifest/manifest_vendor.xiaomi.hardware.cld_aidl.xml
 vendor/etc/vintf/manifest/mapper.mediatek.xml
-vendor/etc/vintf/manifest/memtrack-mediatek.xml
 vendor/etc/vintf/manifest/mrm.xml
 vendor/etc/vintf/manifest/mtk_lbs_service.xml
 vendor/etc/vintf/manifest/mtkgnss-batching.xml
 vendor/etc/vintf/manifest/mtkpower_applist-mtk-default.xml
 vendor/etc/vintf/manifest/nfc-service-tms.xml
-vendor/etc/vintf/manifest/nfc2-service-nxp.xml
 vendor/etc/vintf/manifest/power-mediatek.xml
 vendor/etc/vintf/manifest/thermal-mediatek.xml
 vendor/etc/vintf/manifest/vendor.dolby.media.c2-default-service-dax.xml

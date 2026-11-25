@@ -66,11 +66,12 @@ python3 vendor-blobs/list.py                 # дописывает vendor-ча�
 `passwd_vendor` и `toolbox_vendor` так и остались установленными). Поэтому такие пути в списке блобов не
 перечисляются (`FROM_SOURCE` в `list.py`), а файл в образ приходит из дерева.
 
-Сейчас их 647: 401 из первой волны (20 — конфликт имён модулей, 388 — названные kati на первом прогоне,
+Сейчас их 651: 401 из первой волны (20 — конфликт имён модулей, 388 — названные kati на первом прогоне,
 прошедшем soong, 25.11 19:47, минус 7, которые тогда оставили блобами), 245 из статической сверки
 итогового списка с `installs-*.mk`, ещё 2 (`lib/mt6789/libmnl.so` обеих битностей — их ставит платформа,
 а наши симлинки на них давали второй `install_symlink`-дубль), минус `com.google.android.widevine.
-nonupdatable.apex` — его ставим только мы, он снова блоб. AOSP и открытые MediaTek/NXP:
+nonupdatable.apex` — его ставим только мы, он снова блоб, и 4 vintf-фрагмента платформенных HAL
+(`bluetooth_audio`, `nfc2-service-nxp`, `memtrack-mediatek`, `android.hardware.ir-service.example`). AOSP и открытые MediaTek/NXP:
 `hardware/interfaces`, `hardware/mediatek`, `hardware/nxp`, `frameworks/*`, `system/*`.
 
 Среди этих путей — стоковые `libaedv`, `audio.bluetooth.default`,
@@ -82,31 +83,18 @@ nonupdatable.apex` — его ставим только мы, он снова б
 Обновить список после сборки, которая сообщила новые дубли, или для статической сверки:
 
 ```bash
-cd $HOME/lineage
-python3 - <<'EOF'
-import re, collections, os
-D = 'device/xiaomi/emerald'
-d = collections.defaultdict(set)
-for line in open('out/soong/installs-lineage_emerald.mk', errors='replace'):
-    m = re.match(r'^(out/target/product/emerald/(?:vendor|odm)/\S+): (\S+)', line)
-    if m: d[m.group(1)].add(m.group(2))
-paths = set()                                    # файлы + симлинки, наши правила
-for line in open(os.path.join(D, 'proprietary-files.txt')):
-    line = line.strip()
-    if not line or line.startswith('#'): continue
-    parts = line.split(';'); paths.add(parts[0])
-    for a in parts[1:]:
-        if a.startswith('SYMLINK='): paths.update(x for x in a[8:].split(',') if x)
-for loc in re.findall(r'installed_location: "([^"]+)"', open(os.path.join(D, 'vendor_symlinks/Android.bp')).read()):
-    paths.add('vendor/' + loc)
-for k, v in sorted(d.items()):
-    rel = k[len('out/target/product/emerald/'):]
-    # свои правила (блоб-модуль, копия из блоб-репо) конфликтом не считаются
-    if rel in paths and any('emerald_blob_' not in s and 'vendor/xiaomi/emerald/' not in s for s in v):
-        print('/' + rel[len('vendor'):], '<-', sorted(v)[0])
-EOF
+cd $HOME/lineage/device/xiaomi/emerald
+python3 vendor-blobs/conflicts.py        # пустой вывод + rc=0 = дублей нет
 ```
 
-Пути из вывода дописать в `FROM_SOURCE` (`list.py`) и перегенерировать список и блоб-репо: `list.py` сам
-`proprietary-files.txt` перезапишет, `extract-files.py` файлы **не удаляет** — лишние снять вручную
-(`find proprietary/vendor -type f`, которых нет в списке), и только потом повторить генерацию.
+Скрипт читает `out/soong/installs-lineage_emerald.mk` (его пишет kati — нужен любой прогон, дошедший
+до kati) и сравнивает с нашими путями: файлы, симлинки `SYMLINK=` из строк списка, симлинки
+`vendor_symlinks/Android.bp`. Ловит и модульные правила (`target: source`), и make-копии
+(`$(eval $(call fn, src, target))`) — последние важны: так платформа ставит `vintf_fragments` своих HAL
+(`vendor/etc/vintf/manifest/bluetooth_audio.xml`, `nfc2-service-nxp.xml`, `memtrack-mediatek.xml`,
+`android.hardware.ir-service.example.xml` — все четыре 26.11 ушли в `FROM_SOURCE`).
+
+Пути из вывода дописать в `FROM_SOURCE` (`list.py`) и перегенерировать: `list.py` перепишет
+`proprietary-files.txt`, `extract-files.py` перегенерирует `Android.bp`/`emerald-vendor.mk`, но файлы
+**не удалит** — лишние снять вручную (`find proprietary/vendor -type f`, которых нет в списке) и только
+потом перегенерировать ещё раз.
