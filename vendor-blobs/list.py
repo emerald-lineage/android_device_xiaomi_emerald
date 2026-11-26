@@ -9,14 +9,14 @@ Rules, all applied from scratch so the result does not depend on earlier fixes:
     media_profiles_V1_0.xml, fstab.mt6789) - they are not listed;
   * symlinks that point at listed files become SYMLINK arguments on the target line, except the three
     with names soong cannot use (`@`) - those are written by hand in vendor_symlinks/Android.bp -
-    and the two that point at a directory or into vendor_dlkm;
+    and the two whose targets are a directory or a path on vendor_dlkm;
   * files soong has no package rule for (odm/*, overlay/*.apk) and the two 32-bit libraries whose 64-bit
     twin takes the module name are installed as plain copies (MAKE_COPY_RULE_ONLY);
   * every library whose name also exists as a module in the source tree gets its own module name
     (MODULE=emerald_blob_...) with the file name kept by stem, so a blob never fights a source module
     for the vendor partition (AIDL/HIDL interface libraries, vendor_available libraries);
   * libraries that exist in the tree only as system_ext modules are plain copies too;
-  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 651 of
+  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 658 of
     them): soong packs the vendor variant of every vendor_available module in PRODUCT_PACKAGES, and a
     second rule for the same path is a kati error.
 """
@@ -48,12 +48,16 @@ COPY_RULE_ONLY = {
 # makefile runs before the inherited lists are merged, and `overrides` only affects fsgen packing - the
 # install rule still comes from the module itself (checked 25.11: passwd_vendor and toybox_vendor stayed
 # installed while listed in `overrides` of the phony module we had). So these paths come from the source
-# tree, not from the image: 651 of them - 401 from the first wave (20 name clashes, 388 reported by kati
+# tree, not from the image: 658 of them - 401 from the first wave (20 name clashes, 388 reported by kati
 # on the first vendorimage build that got through soong, 25.11 19:47, minus 7 kept as blobs back then),
 # 245 found by comparing the final list against installs-lineage_emerald.mk (vendor paths this list
 # still wrote while the platform installed them, both module and copy-rule ones), 2 more libmnl
 # (mt6789 copies: the platform's libmnl.so clashed with our symlinks), 4 vintf fragments the make side
-# copies for the platform HALs, and minus the Widevine apex, which only we install, so it stays a blob.
+# copies for the platform HALs, 5 aconfig files (packaging/flags.mk), and minus the Widevine apex, which
+# only we install, so it stays a blob. Two of the 658 (bpf/filterPowerSupplyEvents.o, linker.config.pb)
+# come from the full duplicate list of 26.11: kati stops at the first one, so the whole list was
+# collected with BUILD_BROKEN_DUP_RULES. The third path of that list, the `lib/modules` symlink, is not
+# in FROM_SOURCE: it was ours by hand in vendor_symlinks/Android.bp, and the platform makes it itself.
 #
 # The stock copies of libaedv, audio.bluetooth.default, vendor.mediatek.hardware.bluetooth.audio-V1-ndk
 # (both bitnesses) and nfc_nci_nxp_snxxx_v2 are built from MediaTek's and NXP's own sources, so the
@@ -94,6 +98,11 @@ FROM_SOURCE = {
     '/bin/wlan_assistant',
     '/bin/wpa_cli',
     '/etc/NOTICE.xml.gz',
+    '/etc/aconfig/flag.info',
+    '/etc/aconfig/flag.map',
+    '/etc/aconfig/flag.val',
+    '/etc/aconfig/package.map',
+    '/etc/aconfig_flags.pb',
     '/etc/aidl/hfp/hfp_codec_capabilities.xml',
     '/etc/aidl/le_audio/aidl_audio_set_configurations.bfbs',
     '/etc/aidl/le_audio/aidl_audio_set_scenarios.bfbs',
@@ -101,6 +110,7 @@ FROM_SOURCE = {
     '/etc/aidl/le_audio/aidl_default_audio_set_scenarios.json',
     '/etc/boringssl_self_test.zygote64.rc',
     '/etc/boringssl_self_test.zygote64_32.rc',
+    '/etc/bpf/filterPowerSupplyEvents.o',
     '/etc/build_flags.json',
     '/etc/fs_config_dirs',
     '/etc/fs_config_files',
@@ -116,6 +126,7 @@ FROM_SOURCE = {
     '/etc/init/nfc2-service-nxp.rc',
     '/etc/init/vndservicemanager.rc',
     '/etc/init/wlan_assistant.rc',
+    '/etc/linker.config.pb',
     '/etc/mkshrc',
     '/etc/passwd',
     '/etc/permissions/android.hardware.audio.low_latency.prebuilt.xml',
@@ -796,7 +807,8 @@ with open(OUT, 'a') as f:
     f.write('# device tree instead, see device.mk: the health HAL binary and its vintf fragment, the media\n')
     f.write('# profiles and the fstab. Symlinks are install_symlink rules on the target lines (absolute /vendor\n')
     f.write('# paths), except five that device/xiaomi/emerald/vendor_symlinks/Android.bp writes by hand: three\n')
-    f.write('# names soong cannot use, and two whose targets are not files of the partition.\n')
+    f.write('# names soong cannot use, and two whose targets are not files of the partition. `lib/modules`\n')
+    f.write('# (vendor_dlkm) is not here any more: the platform makes it itself.\n')
     f.write('# MODULE=emerald_blob_<name> keeps the file name (stem) while giving the prebuilt module a name no\n')
     f.write('# module of the source tree has; MAKE_COPY_RULE_ONLY installs a file without a module.\n')
     f.write('# %d libraries are not listed: the platform installs its own build of them into the vendor image\n' % len(FROM_SOURCE))

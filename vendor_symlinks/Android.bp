@@ -29,7 +29,8 @@ install_symlink {
 }
 
 // The two symlinks of the stock vendor.img that extract-utils leaves out because their targets are not
-// files of the partition (a directory, and a path on vendor_dlkm).
+// files of the partition (a directory, and a path on vendor_dlkm). `lib/modules` is not here any more:
+// the platform makes that symlink itself (26.11, Makefile).
 install_symlink {
     name: "vendor_firmware_sensor",
     soc_specific: true,
@@ -37,9 +38,3 @@ install_symlink {
     symlink_target: "/vendor/etc/imgsensor/mt6789",
 }
 
-install_symlink {
-    name: "vendor_lib_modules",
-    soc_specific: true,
-    installed_location: "lib/modules",
-    symlink_target: "/vendor_dlkm/lib/modules",
-}

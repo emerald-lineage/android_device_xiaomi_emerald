@@ -46,7 +46,7 @@ python3 vendor-blobs/list.py                 # дописывает vendor-ча�
 | все обычные файлы образа кроме `build.prop` | строка `vendor/<путь>` |
 | 4 файла, которые даёт дерево (health HAL, его vintf-фрагмент, media_profiles, fstab) | не перечисляются, их ставит `device.mk` |
 | симлинки на файлы раздела | `;SYMLINK=vendor/<путь>` на строке цели |
-| 4 симлинка с `[` и `@` в имени, каталог `/firmware/sensor`, `/lib/modules` → `vendor_dlkm` | не воспроизводятся: первые четыре — руками в `../vendor_symlinks/Android.bp` |
+| 4 симлинка с `[` и `@` в имени, каталог `/firmware/sensor` | не воспроизводятся: три с `@` и `/firmware/sensor` — руками в `../vendor_symlinks/Android.bp`; `/lib/modules` → `vendor_dlkm` делает сама платформа |
 | `.so` | `;MODULE=emerald_blob_<имя>;DISABLE_DEPS` — имя модуля своё, имя файла сохраняет `stem`; список зависимостей из ELF не нужен (блоб не участвует в сборке) |
 | `bin/**`, `odm/**`, `overlay/**`, имена с `@`, две 32-битные библиотеки с общим именем, библиотеки, которые в дереве есть только как system_ext | `;MAKE_COPY_RULE_ONLY` — ставится файлом, без модуля |
 
@@ -66,12 +66,17 @@ python3 vendor-blobs/list.py                 # дописывает vendor-ча�
 `passwd_vendor` и `toolbox_vendor` так и остались установленными). Поэтому такие пути в списке блобов не
 перечисляются (`FROM_SOURCE` в `list.py`), а файл в образ приходит из дерева.
 
-Сейчас их 651: 401 из первой волны (20 — конфликт имён модулей, 388 — названные kati на первом прогоне,
+Сейчас их 658: 401 из первой волны (20 — конфликт имён модулей, 388 — названные kati на первом прогоне,
 прошедшем soong, 25.11 19:47, минус 7, которые тогда оставили блобами), 245 из статической сверки
 итогового списка с `installs-*.mk`, ещё 2 (`lib/mt6789/libmnl.so` обеих битностей — их ставит платформа,
-а наши симлинки на них давали второй `install_symlink`-дубль), минус `com.google.android.widevine.
-nonupdatable.apex` — его ставим только мы, он снова блоб, и 4 vintf-фрагмента платформенных HAL
-(`bluetooth_audio`, `nfc2-service-nxp`, `memtrack-mediatek`, `android.hardware.ir-service.example`). AOSP и открытые MediaTek/NXP:
+а наши симлинки на них давали второй `install_symlink`-дубль), 5 файлов aconfig (`packaging/flags.mk`
+платформы их генерирует), минус `com.google.android.widevine.
+nonupdatable.apex` — его ставим только мы, он снова блоб, 4 vintf-фрагмента платформенных HAL
+(`bluetooth_audio`, `nfc2-service-nxp`, `memtrack-mediatek`, `android.hardware.ir-service.example`) и
+последние 2 дубля из полного списка 26.11 (`etc/bpf/filterPowerSupplyEvents.o`, `etc/linker.config.pb`;
+kati останавливается на первом дубле, поэтому список собрали с `BUILD_BROKEN_DUP_RULES`; третий путь
+того списка — симлинк `lib/modules` — не `FROM_SOURCE`, а снят из `vendor_symlinks/Android.bp`, его делает
+платформа). AOSP и открытые MediaTek/NXP:
 `hardware/interfaces`, `hardware/mediatek`, `hardware/nxp`, `frameworks/*`, `system/*`.
 
 Среди этих путей — стоковые `libaedv`, `audio.bluetooth.default`,

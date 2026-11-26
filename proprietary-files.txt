@@ -38,16 +38,18 @@ system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 
 
 
+
 # Vendor partition: everything inside the stock OS3.0.305.0.WNFMIXM vendor.img (5222 files, 740 symlinks).
 # Source: a dump whose vendor/ directory is the image unpacked with fsck.erofs; build.prop is not
 # listed (the build writes it from vendor/xiaomi/emerald/vendor.prop). Four files come from the
 # device tree instead, see device.mk: the health HAL binary and its vintf fragment, the media
 # profiles and the fstab. Symlinks are install_symlink rules on the target lines (absolute /vendor
 # paths), except five that device/xiaomi/emerald/vendor_symlinks/Android.bp writes by hand: three
-# names soong cannot use, and two whose targets are not files of the partition.
+# names soong cannot use, and two whose targets are not files of the partition. `lib/modules`
+# (vendor_dlkm) is not here any more: the platform makes it itself.
 # MODULE=emerald_blob_<name> keeps the file name (stem) while giving the prebuilt module a name no
 # module of the source tree has; MAKE_COPY_RULE_ONLY installs a file without a module.
-# 651 libraries are not listed: the platform installs its own build of them into the vendor image
+# 658 libraries are not listed: the platform installs its own build of them into the vendor image
 # (FROM_SOURCE in vendor-blobs/list.py, see there for why and for the ABI check).
 # The static RROs (/overlay/*.apk) are in the device tree: prebuilts/overlays/.
 vendor/apex/com.google.android.widevine.nonupdatable.apex
@@ -237,11 +239,6 @@ vendor/etc/VideoLog_dynamic.ds
 vendor/etc/_mi.xml
 vendor/etc/a2dp_audio_policy_configuration.xml;MAKE_COPY_RULE_ONLY
 vendor/etc/a2dp_in_audio_policy_configuration.xml;MAKE_COPY_RULE_ONLY
-vendor/etc/aconfig/flag.info
-vendor/etc/aconfig/flag.map
-vendor/etc/aconfig/flag.val
-vendor/etc/aconfig/package.map
-vendor/etc/aconfig_flags.pb;MAKE_COPY_RULE_ONLY
 vendor/etc/aee-commit
 vendor/etc/aee-config
 vendor/etc/aidl/hfp/hfp_codec_capabilities.xml_mtk;MAKE_COPY_RULE_ONLY
@@ -392,7 +389,6 @@ vendor/etc/aurisys_config.xml
 vendor/etc/aurisys_config_adsp.xml
 vendor/etc/bluetooth_audio_policy_configuration.xml
 vendor/etc/bluetooth_offload_audio_policy_configuration.xml
-vendor/etc/bpf/filterPowerSupplyEvents.o;MAKE_COPY_RULE_ONLY
 vendor/etc/breakwhiteapplist.xml
 vendor/etc/camera/8M_1_morpho_ldc.bin
 vendor/etc/camera/8M_2_morpho_ldc.bin
@@ -972,7 +968,6 @@ vendor/etc/libnfc-tms_RF.conf
 vendor/etc/libnfc-tms_RF_EC2.conf
 vendor/etc/libnfc-tms_RF_GB1.conf
 vendor/etc/libnfc-tms_RF_THN31P.conf
-vendor/etc/linker.config.pb
 vendor/etc/mali_platform.config
 vendor/etc/mbrain/mbrain_passthrough_config.json
 vendor/etc/mbrain/mbrain_runtime_appiot_config.json
