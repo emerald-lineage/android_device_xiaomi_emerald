@@ -54,6 +54,16 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.mt6789
 
+# HIDL interfaces of the aee blob (vendor/etc/init of the stock image declares them: 1.0 and 1.1).
+# Only the build-time metadata: see Android.bp next to this file.
+PRODUCT_PACKAGES += \
+    hidl_vendor_mediatek_hardware_aee_interface
+
+# The vendor linker configuration of the stock image: provideLibs with liboemcrypto.so (17 bytes).
+# See configs/linker.config.vendor.json for why the platform does not generate it itself.
+PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
+    $(LOCAL_PATH)/configs/linker.config.vendor.json
+
 # Files of the vendor partition that our tree provides instead of the stock blob (until 2.23 they were
 # written into the stock image by patch-images.py; the stock copies are excluded in proprietary-files.txt).
 PRODUCT_COPY_FILES += \

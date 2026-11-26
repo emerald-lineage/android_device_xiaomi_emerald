@@ -1,0 +1,8 @@
+// The stock 305 vendor.img ships etc/linker.config.pb of 17 bytes: provideLibs with one name,
+// liboemcrypto.so. Nothing in AOSP or in our tree generates that entry (the library is a blob and
+// has no stub module, so SOONG_STUB_VENDOR_LIBRARIES adds nothing), but the stock partition
+// explicitly provided it to the other namespaces - restored here so the vendor linker
+// configuration stays as it was. conv_linker_config strips // comment lines.
+{
+  "provideLibs": ["liboemcrypto.so"]
+}

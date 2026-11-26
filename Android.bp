@@ -5,3 +5,16 @@
 
 soong_namespace {
 }
+
+// The aee daemon of the vendor image (MTK log collection) is a prebuilt blob: its HIDL interface
+// libraries come with the image, not with .hal sources, so the build has no hidl_interface module for
+// them. Its init rc declares the interfaces, and host_init_verifier rejects an interface it does not
+// know ("not in the known set of hidl_interfaces"), so the names are registered here as prebuilt ones.
+// This only feeds the build-time interface metadata - nothing is compiled or installed.
+prebuilt_hidl_interfaces {
+    name: "hidl_vendor_mediatek_hardware_aee_interface",
+    interfaces: [
+        "vendor.mediatek.hardware.aee@1.0::IAee",
+        "vendor.mediatek.hardware.aee@1.1::IAee",
+    ],
+}
