@@ -4,2700 +4,3245 @@
 # files 0644 root:root, directories 0755 root:root. There are no capabilities and no setuid bits
 # in the stock image (checked with the EROFS reader of patch-images.py, 25.11.2026).
 #
+# config.fs требует поле caps у каждой записи, и пустым оно быть не может (fs_config_generator.py
+# выходит с "Found specified but unset option"); прав в стоке нет, поэтому везде `caps: 0` — маска
+# 0 и есть «без capabilities». Каталоги помечены косой чертой в конце имени секции (343 записи) —
+# только так генератор кладёт их в fs_config_dirs, иначе режим каталога не применяется (196 файлов
+# остались без черты).
+#
 # Used through TARGET_FS_CONFIG_GEN; see docs/plan-2.24.md in emerald-buildnotes.
 #
 
-[vendor/apex]
+[vendor/apex/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app]
+[vendor/app/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/NetworkStackGoogleGoResOverlay]
+[vendor/app/NetworkStackGoogleGoResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/goodix_sz]
+[vendor/app/goodix_sz/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/NetworkStackGoogleResOverlay]
+[vendor/app/NetworkStackGoogleResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/OpticalTestTool]
+[vendor/app/OpticalTestTool/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/TetheringGoogleResOverlay]
+[vendor/app/TetheringGoogleResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/NetworkStackResOverlay]
+[vendor/app/NetworkStackResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/app/TetheringResOverlay]
+[vendor/app/TetheringResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin]
+[vendor/bin/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/aee_aedv64_v2]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/aee_dumpstatev_v2]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/aeev_v2]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/AgentTest]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/atcid]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/audiocmdservice_atci]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/ated]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/autobt]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/awk]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/backlight_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/batterysecret]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/bip_ap]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/bip]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/boardid_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/boringssl_self_test32]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/boringssl_self_test64]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/bt_dump]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/ccci_mdinit]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/charge_logger]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/ccci_rpcd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/charon]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/charger_region_server_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/chipinfo]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/conninfra_loader]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild]
+[vendor/bin/crossbuild/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet]
+[vendor/bin/crossbuild/DataSet/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/awbsync/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/feature/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flashcali/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flash/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/flicker/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pd/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/pipeline/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tone/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/default_sensor/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB_aov/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/gc02m1_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/gc02m1_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/default_sensor/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/gc02m1_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/gc02m1_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/hi847_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx06c_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx06c_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx06c_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx06c_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx214_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx334sub_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx481_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx499_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx582_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx582_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx582_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx582_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx596_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx596_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx596_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx596_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx586_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx598_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx6632x_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx709o_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx758_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dual_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766dualo_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx766o_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx800_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx866_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/imx989_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/mtk000_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov48b_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/ov64b_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sx_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3m5sxo_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k3p9sp_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k4h7alpha_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k4h7alpha_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k4h7alpha_mipi_raw/mt6895]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5k4h7alpha_mipi_raw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw/mt6991]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kgd2_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5khp9sp_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5khp9sp_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5khp9sp_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5khp9sp_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kjn1_mipi_raw]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kjn1_mipi_raw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kjn1_mipi_raw/mt6993]
+[vendor/bin/crossbuild/DataSet/SQLiteModule/db/tuning_DB/s5kjn1_mipi_raw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dconfig]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dexecutor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/DFtool]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/displayfeature]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dmc_core]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dmabuf_dump]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/doeapp-memtester]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/doeapp-sat]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dreport]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dtc_vendor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/eara_io_service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/dumpsys]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/em_hidl]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/factory]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/epdg_wod]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/ffu]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/fidoca_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/fpsgo]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/frs]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/frs_intf]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/gps_dump]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/gsm0710muxd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hostapd_cli]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hs20-osu-client]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw]
+[vendor/bin/hw/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.audio.service-aidl.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.bluetooth.finder-service-mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.biometrics.fingerprint-service.odm]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.bluetooth.ranging-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.bluetooth-service-mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.boot-service.mtk]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.contexthub-service.tinysys]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.dumpstate-service.xiaomi]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.drm-service.clearkey]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.gatekeeper-service.mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.gnss-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.graphics.composer@3.2-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.graphics.composer@3.3-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.graphics.composer@3.4-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.health-service.example]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.media.c2-mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.ir-service.example]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.media.c2-mediatek-64b]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.lights-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.memtrack-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.neuralnetworks-shim-service-mtk]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.neuralnetworks-shim-service-mtk-lazy]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.nfc2-service.nxp]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.secure_element@1.2-service-mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.nfc-service-tms]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.security.keymint@4.0-service.mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.sensors-service.multihal]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.usb-aidl-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.thermal-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.usb.gadget-aidl-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/android.hardware.wifi-service-lazy]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw/mt6789]
+[vendor/bin/hw/mt6789/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/hostapd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/mt6789/android.hardware.graphics.allocator-V2-service-mediatek.mt6789]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/mt6789/camerahalserver]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw/mt6855]
+[vendor/bin/hw/mt6855/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw/mt6991]
+[vendor/bin/hw/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw/mt6895]
+[vendor/bin/hw/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/hw/mt6993]
+[vendor/bin/hw/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.dolby.media.c2-default-service-dax]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/tetheroffloadservice]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/mtkfusionrild]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.dolby.dms.service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.aee@V1-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.aee@1.1-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.gnss-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.gpuserv-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mbrain-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mms-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mmagent-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mmlpq@V1-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mtkpower_applist-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.mtkpower-service.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.nvram-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.neuropilot.neuronservice.neuronservice.mediatek]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.pq_aidl-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.nwk_opt@1.0-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.mediatek.hardware.vgoservice]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.cld_aidl-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.displayfeature_aidl-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.micharge-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.mimd2]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.vibratorfeature.service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hardware.misys.core-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.hw.touchfeature-service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vendor.xiaomi.sensor.citsensorservice.aidl]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/vtservice_aidl]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hw/wpa_supplicant]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/hypsys_vendor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/initprop_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/init.insmod.sh]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/init.pstore_blk.sh]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/ipsec_mon]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/iwlist]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/iwpriv]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/jxnosfastswitch]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/loghidlvendorservice]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/logwrapper]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/md_monitor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/md_monitor_ctrl]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/meta_tst]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/MI_RIC]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mishow.sh]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/MI_IC]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/miteelog]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mi_thermald]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mlipayd_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mnld]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mrdump_tool]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mrmd_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mt6789/jpegtool]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mt6660_calibration]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mt6789/v3avpud-64b.mt6789]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/mt6789]
+[vendor/bin/mt6789/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/mt6855]
+[vendor/bin/mt6855/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/mt6991]
+[vendor/bin/mt6991/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/mt6895]
+[vendor/bin/mt6895/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
-[vendor/bin/mt6993]
+[vendor/bin/mt6993/]
 mode: 0751
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtd_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtk_lbs_service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtk_agpsd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtk_pkm_service]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtk_storageproxyd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mtk_plpath_utils_ota]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/muxreport]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mvpu_ptn_player32_25]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/mvpu_ptn_player64_25]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/netdagent]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/netdc]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/nvram_daemon]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/panelcolor_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/rcs_volte_stack]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/rt5512_calibration]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/rttv_v2]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/sh]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/sns_sensors_test_and_cal]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/smartpa_nvtest]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/soterd]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/SoterProvisioningTool_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/starter]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/stp_dump3]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/stroke]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/tee-supplicant]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/test-nusensor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/thermal_core]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/thermal_intf]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/tidad_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/toolbox]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/touch_boost]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/tptest_bin]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/toybox_vendor]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/trusty-ut-ctrl]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/uart_launcher]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/userdata_setup]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/vndservice]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/vndservicemanager]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/vib_cal]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_clientapi_ua]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_imcb]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_md_status]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_imsm_93]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_stack]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_rcs_ua]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/volte_ua]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/vsimd_mitee]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wfca]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wifi_dump]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wifitest]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wmt_launcher]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wlan_assistant]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wmt_loader]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/wpa_cli]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/bin/xcap]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/build.prop]
 mode: 0600
 user: root
 group: root
+caps: 0
 
-[vendor/etc]
+[vendor/etc/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/aconfig]
+[vendor/etc/aconfig/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/aidl]
+[vendor/etc/aidl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/aidl/hfp]
+[vendor/etc/aidl/hfp/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/aidl/le_audio]
+[vendor/etc/aidl/le_audio/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/apdb]
+[vendor/etc/apdb/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/audio_param]
+[vendor/etc/audio_param/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/bpf]
+[vendor/etc/bpf/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera]
+[vendor/etc/camera/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/dof_mecp]
+[vendor/etc/camera/dof_mecp/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/eis]
+[vendor/etc/camera/eis/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/model]
+[vendor/etc/camera/model/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/model/dof_model]
+[vendor/etc/camera/model/dof_model/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/model/rt_model]
+[vendor/etc/camera/model/rt_model/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/png]
+[vendor/etc/camera/png/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources]
+[vendor/etc/camera/resources/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/kernel/64]
+[vendor/etc/camera/resources/kernel/64/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/kernel/32]
+[vendor/etc/camera/resources/kernel/32/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/kernel]
+[vendor/etc/camera/resources/kernel/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/model]
+[vendor/etc/camera/resources/model/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render]
+[vendor/etc/camera/resources/render/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/BuildIn]
+[vendor/etc/camera/resources/render/BuildIn/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/BuildIn/binShaders32]
+[vendor/etc/camera/resources/render/BuildIn/binShaders32/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/BuildIn/binShaders64]
+[vendor/etc/camera/resources/render/BuildIn/binShaders64/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/BuildIn/Material]
+[vendor/etc/camera/resources/render/BuildIn/Material/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Config]
+[vendor/etc/camera/resources/render/Config/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect]
+[vendor/etc/camera/resources/render/Effect/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects]
+[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/20_FaceRetouch]
+[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/0_Spotless]
+[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/0_Spotless/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/1_SkinSmoothClassical]
+[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/1_SkinSmoothClassical/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/2_SkinSmoothRear]
+[vendor/etc/camera/resources/render/Effect/20_FaceRetouch/Effects/2_SkinSmoothRear/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/30_BasicRetouch]
+[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects]
+[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects/0_BrightEye]
+[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects/0_BrightEye/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects/0_BrightEyeV3]
+[vendor/etc/camera/resources/render/Effect/30_BasicRetouch/Effects/0_BrightEyeV3/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/40_FaceStereo]
+[vendor/etc/camera/resources/render/Effect/40_FaceStereo/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/40_FaceStereo/Effects]
+[vendor/etc/camera/resources/render/Effect/40_FaceStereo/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/40_FaceStereo/Effects/0_ModeFront]
+[vendor/etc/camera/resources/render/Effect/40_FaceStereo/Effects/0_ModeFront/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/50_SkinTone]
+[vendor/etc/camera/resources/render/Effect/50_SkinTone/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/50_SkinTone/Effects]
+[vendor/etc/camera/resources/render/Effect/50_SkinTone/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/50_SkinTone/Effects/0_ModeFront]
+[vendor/etc/camera/resources/render/Effect/50_SkinTone/Effects/0_ModeFront/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/5_DLRetouch]
+[vendor/etc/camera/resources/render/Effect/5_DLRetouch/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/60_Makeup]
+[vendor/etc/camera/resources/render/Effect/60_Makeup/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/60_Makeup/Effects]
+[vendor/etc/camera/resources/render/Effect/60_Makeup/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/60_Makeup/Effects/0_ModeFront]
+[vendor/etc/camera/resources/render/Effect/60_Makeup/Effects/0_ModeFront/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/70_FacialRefine/Effects]
+[vendor/etc/camera/resources/render/Effect/70_FacialRefine/Effects/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/70_FacialRefine]
+[vendor/etc/camera/resources/render/Effect/70_FacialRefine/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/resources/render/Effect/70_FacialRefine/Effects/0_ModeFront]
+[vendor/etc/camera/resources/render/Effect/70_FacialRefine/Effects/0_ModeFront/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/xiaomi]
+[vendor/etc/camera/xiaomi/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/camera/xml]
+[vendor/etc/camera/xml/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/dolby]
+[vendor/etc/dolby/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/etc/fs_config_dirs]
 mode: 0444
 user: root
 group: root
+caps: 0
 
 [vendor/etc/fs_config_files]
 mode: 0444
 user: root
 group: root
+caps: 0
 
-[vendor/etc/gnss]
+[vendor/etc/gnss/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/gnss/carrier]
+[vendor/etc/gnss/carrier/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/gralloc]
+[vendor/etc/gralloc/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/imgsensor]
+[vendor/etc/imgsensor/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/imgsensor/mt6991]
+[vendor/etc/imgsensor/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/imgsensor/mt6993]
+[vendor/etc/imgsensor/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/init]
+[vendor/etc/init/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/init/hw]
+[vendor/etc/init/hw/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/ipsec]
+[vendor/etc/ipsec/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/ipsec/ipsec.d]
+[vendor/etc/ipsec/ipsec.d/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/ipsec/ipsec.d/cacerts]
+[vendor/etc/ipsec/ipsec.d/cacerts/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/ipsec/ssl]
+[vendor/etc/ipsec/ssl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/mbrain]
+[vendor/etc/mbrain/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/mt6991]
+[vendor/etc/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/mt6993]
+[vendor/etc/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/permissions]
+[vendor/etc/permissions/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/rsc]
+[vendor/etc/rsc/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/rsc/default]
+[vendor/etc/rsc/default/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/rsc/glb_p]
+[vendor/etc/rsc/glb_p/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/rsc/glb]
+[vendor/etc/rsc/glb/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/seccomp_policy]
+[vendor/etc/seccomp_policy/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/security]
+[vendor/etc/security/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/security/cacerts]
+[vendor/etc/security/cacerts/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/security/cacerts_supl]
+[vendor/etc/security/cacerts_supl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/security/cacerts_supl/lab]
+[vendor/etc/security/cacerts_supl/lab/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/selinux]
+[vendor/etc/selinux/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/sensors]
+[vendor/etc/sensors/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/thermal]
+[vendor/etc/thermal/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/vintf]
+[vendor/etc/vintf/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/vintf/manifest]
+[vendor/etc/vintf/manifest/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/etc/wifi]
+[vendor/etc/wifi/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/firmware]
+[vendor/firmware/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/firmware/vibrator_firmware_aidl]
+[vendor/firmware/vibrator_firmware_aidl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/framework]
+[vendor/framework/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib]
+[vendor/lib/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64]
+[vendor/lib64/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl]
+[vendor/lib64/egl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl/mt6789]
+[vendor/lib64/egl/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl/mt6855]
+[vendor/lib64/egl/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl/mt6895]
+[vendor/lib64/egl/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl/mt6993]
+[vendor/lib64/egl/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/egl/mt6991]
+[vendor/lib64/egl/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw]
+[vendor/lib64/hw/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw/mt6789]
+[vendor/lib64/hw/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw/mt6855]
+[vendor/lib64/hw/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw/mt6895]
+[vendor/lib64/hw/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw/mt6991]
+[vendor/lib64/hw/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/hw/mt6993]
+[vendor/lib64/hw/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mediacas]
+[vendor/lib64/mediacas/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mediadrm]
+[vendor/lib64/mediadrm/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mt6789]
+[vendor/lib64/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mt6855]
+[vendor/lib64/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mt6895]
+[vendor/lib64/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mt6991]
+[vendor/lib64/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mt6993]
+[vendor/lib64/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mtkcam]
+[vendor/lib64/mtkcam/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mtkcam/mt6789]
+[vendor/lib64/mtkcam/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/mtkcam/mt6855]
+[vendor/lib64/mtkcam/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib64/soundfx]
+[vendor/lib64/soundfx/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl]
+[vendor/lib/egl/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl/mt6789]
+[vendor/lib/egl/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl/mt6855]
+[vendor/lib/egl/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl/mt6895]
+[vendor/lib/egl/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl/mt6991]
+[vendor/lib/egl/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/egl/mt6993]
+[vendor/lib/egl/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw]
+[vendor/lib/hw/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw/mt6789]
+[vendor/lib/hw/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw/mt6855]
+[vendor/lib/hw/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw/mt6991]
+[vendor/lib/hw/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw/mt6993]
+[vendor/lib/hw/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/hw/mt6895]
+[vendor/lib/hw/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mediacas]
+[vendor/lib/mediacas/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mediadrm]
+[vendor/lib/mediadrm/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mt6789]
+[vendor/lib/mt6789/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mt6855]
+[vendor/lib/mt6855/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mt6895]
+[vendor/lib/mt6895/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mt6993]
+[vendor/lib/mt6993/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/mt6991]
+[vendor/lib/mt6991/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/lib/soundfx]
+[vendor/lib/soundfx/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/mitee]
+[vendor/mitee/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/mitee/ta]
+[vendor/mitee/ta/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm]
+[vendor/odm/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/bin]
+[vendor/odm/bin/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/odm/bin/toucheventcheck]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/etc]
+[vendor/odm/etc/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
 [vendor/odm/etc/build.prop]
 mode: 0600
 user: root
 group: root
+caps: 0
 
-[vendor/odm/etc/camera]
+[vendor/odm/etc/camera/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/etc/selinux]
+[vendor/odm/etc/selinux/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/etc/vintf]
+[vendor/odm/etc/vintf/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/lib]
+[vendor/odm/lib/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/lib64]
+[vendor/odm/lib64/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/lib64/hw]
+[vendor/odm/lib64/hw/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/odm/lib/hw]
+[vendor/odm/lib/hw/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay]
+[vendor/overlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/CellbroadcastUIResOverlay]
+[vendor/overlay/CellbroadcastUIResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/FrameworkResOverlay]
+[vendor/overlay/FrameworkResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/FrameworkResOverlayExt]
+[vendor/overlay/FrameworkResOverlayExt/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/MtkSettingsResOverlay]
+[vendor/overlay/MtkSettingsResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/MtkTelephonyServiceResOverlay]
+[vendor/overlay/MtkTelephonyServiceResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/SettingsProviderResOverlay]
+[vendor/overlay/SettingsProviderResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/WifiResMainlineOverlay]
+[vendor/overlay/WifiResMainlineOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/overlay/WifiResOverlay]
+[vendor/overlay/WifiResOverlay/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/res]
+[vendor/res/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/res/images]
+[vendor/res/images/]
 mode: 0755
 user: root
 group: shell
+caps: 0
 
-[vendor/res/sound]
+[vendor/res/sound/]
 mode: 0755
 user: root
 group: shell
+caps: 0
