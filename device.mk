@@ -381,6 +381,10 @@ $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
 # 25.11: two install rules for one path is a kati error, and `overrides` of a phony module does not
 # remove the platform's install rule (soong still emits it, only fsgen packing drops the module).
 
+# Платформенные библиотеки, которые сток 305 содержал в разделе, а мы не просили (98 модулей,
+# обоснование и правило — в самом файле).
+$(call inherit-product, device/xiaomi/emerald/vendor-platform-libs.mk)
+
 # Static RROs of the stock vendor partition (modules in prebuilts/overlays/Android.bp: a prebuilt APK
 # cannot be a copy rule and android_app_import cannot install into /vendor/overlay).
 PRODUCT_PACKAGES += \
