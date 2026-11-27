@@ -36,5 +36,10 @@ PRODUCT_PACKAGES += \
 
 # Тянет в /vendor 98 библиотек из DT_NEEDED блобов (список — в required модуля; 9 из них платформа
 # ставит и сама как vendor: true, остальные 91 — только так).
+# Сам модуль живёт в vendor/xiaomi/emerald-platform-deps/ — не в этом дереве: зависимости
+# (libhidltransport, libhwbinder, libmnl) объявляют visibility //vendor:__subpackages__, а у нас
+# здесь soong_namespace, и soong падал на анализе. Каталог вне git-проектов: два файла,
+# переживает repo sync; если его удалить, сборка упадёт на «module emerald_vendor_platform_deps
+# not found».
 PRODUCT_PACKAGES += \
     emerald_vendor_platform_deps
