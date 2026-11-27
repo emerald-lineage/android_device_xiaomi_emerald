@@ -34,9 +34,10 @@ PRODUCT_PACKAGES += \
     wlan_assistant \
     wpa_supplicant
 
-# Тянет в /vendor 98 библиотек из DT_NEEDED блобов (списки — в required пяти модулей; 9 из них
-# платформа ставит и сама как vendor: true, остальные 91 — только так). Модулей пять, а не один:
-# soong запрещает одному графу зависеть от двух версий одного aidl_interface (27.11 17:14).
+# Тянет в /vendor 98 библиотек из DT_NEEDED блобов (по одному required на модуль; 9 из них
+# платформа ставит и сама как vendor: true, остальные 91 — только так). Модулей 98, а не один:
+# soong запрещает графу зависеть от двух версий одного aidl_interface, проверка транзитивная —
+# 17:14 упало на audio.effect V2+V3, 17:20 на graphics.common V6+V7, где V7 пришёл транзитивно.
 # Сами модули живут в vendor/xiaomi/emerald-platform-deps/ — не в этом дереве: зависимости
 # (libhidltransport, libhwbinder, libmnl) объявляют visibility //vendor:__subpackages__, а у нас
 # здесь soong_namespace, и soong падал на анализе. Каталог вне git-проектов: переживает repo sync,
@@ -47,4 +48,97 @@ PRODUCT_PACKAGES += \
     emerald_vendor_deps_2 \
     emerald_vendor_deps_3 \
     emerald_vendor_deps_4 \
-    emerald_vendor_deps_5
+    emerald_vendor_deps_5 \
+    emerald_vendor_deps_6 \
+    emerald_vendor_deps_7 \
+    emerald_vendor_deps_8 \
+    emerald_vendor_deps_9 \
+    emerald_vendor_deps_10 \
+    emerald_vendor_deps_11 \
+    emerald_vendor_deps_12 \
+    emerald_vendor_deps_13 \
+    emerald_vendor_deps_14 \
+    emerald_vendor_deps_15 \
+    emerald_vendor_deps_16 \
+    emerald_vendor_deps_17 \
+    emerald_vendor_deps_18 \
+    emerald_vendor_deps_19 \
+    emerald_vendor_deps_20 \
+    emerald_vendor_deps_21 \
+    emerald_vendor_deps_22 \
+    emerald_vendor_deps_23 \
+    emerald_vendor_deps_24 \
+    emerald_vendor_deps_25 \
+    emerald_vendor_deps_26 \
+    emerald_vendor_deps_27 \
+    emerald_vendor_deps_28 \
+    emerald_vendor_deps_29 \
+    emerald_vendor_deps_30 \
+    emerald_vendor_deps_31 \
+    emerald_vendor_deps_32 \
+    emerald_vendor_deps_33 \
+    emerald_vendor_deps_34 \
+    emerald_vendor_deps_35 \
+    emerald_vendor_deps_36 \
+    emerald_vendor_deps_37 \
+    emerald_vendor_deps_38 \
+    emerald_vendor_deps_39 \
+    emerald_vendor_deps_40 \
+    emerald_vendor_deps_41 \
+    emerald_vendor_deps_42 \
+    emerald_vendor_deps_43 \
+    emerald_vendor_deps_44 \
+    emerald_vendor_deps_45 \
+    emerald_vendor_deps_46 \
+    emerald_vendor_deps_47 \
+    emerald_vendor_deps_48 \
+    emerald_vendor_deps_49 \
+    emerald_vendor_deps_50 \
+    emerald_vendor_deps_51 \
+    emerald_vendor_deps_52 \
+    emerald_vendor_deps_53 \
+    emerald_vendor_deps_54 \
+    emerald_vendor_deps_55 \
+    emerald_vendor_deps_56 \
+    emerald_vendor_deps_57 \
+    emerald_vendor_deps_58 \
+    emerald_vendor_deps_59 \
+    emerald_vendor_deps_60 \
+    emerald_vendor_deps_61 \
+    emerald_vendor_deps_62 \
+    emerald_vendor_deps_63 \
+    emerald_vendor_deps_64 \
+    emerald_vendor_deps_65 \
+    emerald_vendor_deps_66 \
+    emerald_vendor_deps_67 \
+    emerald_vendor_deps_68 \
+    emerald_vendor_deps_69 \
+    emerald_vendor_deps_70 \
+    emerald_vendor_deps_71 \
+    emerald_vendor_deps_72 \
+    emerald_vendor_deps_73 \
+    emerald_vendor_deps_74 \
+    emerald_vendor_deps_75 \
+    emerald_vendor_deps_76 \
+    emerald_vendor_deps_77 \
+    emerald_vendor_deps_78 \
+    emerald_vendor_deps_79 \
+    emerald_vendor_deps_80 \
+    emerald_vendor_deps_81 \
+    emerald_vendor_deps_82 \
+    emerald_vendor_deps_83 \
+    emerald_vendor_deps_84 \
+    emerald_vendor_deps_85 \
+    emerald_vendor_deps_86 \
+    emerald_vendor_deps_87 \
+    emerald_vendor_deps_88 \
+    emerald_vendor_deps_89 \
+    emerald_vendor_deps_90 \
+    emerald_vendor_deps_91 \
+    emerald_vendor_deps_92 \
+    emerald_vendor_deps_93 \
+    emerald_vendor_deps_94 \
+    emerald_vendor_deps_95 \
+    emerald_vendor_deps_96 \
+    emerald_vendor_deps_97 \
+    emerald_vendor_deps_98
