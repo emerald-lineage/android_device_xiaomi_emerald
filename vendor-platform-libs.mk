@@ -112,6 +112,22 @@ PRODUCT_PACKAGES += \
     android.frameworks.stats-V1-ndk \
     libsensorndkbridge
 
+# --- сервисы и демоны раздела: сток их содержал, у нас не было ни бинарника, ни init-скрипта.
+# Без vndservicemanager не поднимается ни один vendor-HAL (это менеджер сервисов раздела), без
+# wpa_supplicant/hostapd нет wifi, без thermal-mediatek нет термоконтроля. Найдено 27.11 вторым
+# аудитом — по init-скриптам образа: сервис есть, бинарника нет.
+PRODUCT_PACKAGES += \
+    android.hardware.drm-service.clearkey \
+    android.hardware.ir-service.example \
+    android.hardware.memtrack-service.mediatek \
+    android.hardware.nfc2-service.nxp \
+    android.hardware.sensors-service.multihal \
+    android.hardware.thermal-service.mediatek \
+    android.hardware.wifi-service-lazy \
+    vndservicemanager \
+    wlan_assistant \
+    wpa_supplicant
+
 # --- power/perf MTK: их ждут libmtkperf_client_vendor, lib_power_applist и power HAL
 PRODUCT_PACKAGES += \
     vendor.mediatek.hardware.mtkpower-V1-ndk \
