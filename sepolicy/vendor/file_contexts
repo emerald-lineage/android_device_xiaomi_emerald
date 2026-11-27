@@ -1,0 +1,80 @@
+# Метки стока 305 для блобов, у которых тип в нашей политике есть, а шаблона в file_contexts нет.
+# Каталог подключён в BoardConfig.mk (BOARD_VENDOR_SEPOLICY_DIRS: типы hal_*_default_exec живут в
+# vendor-политике, из system_ext private их не видно).
+#
+# Найдено 28.11 первым удачным прогоном вендора (emerald-build scripts/vendor-diff.py): 100 путей
+# потеряли метку стока. Здесь 59 с существующим типом. Без строки файл получает vendor_file, init
+# не переводит сервис в его домен (HAL регистрируется из init-домена и падает на правах), а
+# system-процессы не мапят плагины камеры и графики (метка стока — same_process_hal_file).
+#
+# Остальные 41 (mi_ic_exec, backlight_exec, batterysecret_exec, gps_dump_exec, hal_mifidoca/hal_micharge/
+# hal_mimd/hal_misyscore/hal_touchfeature/…): таких типов в политике нет вовсе — их бинарники пока
+# ходят из init-домена, это отдельная работа (backlog).
+#
+# Находка: в device/mediatek/sepolicy_vndr шаблон bluetooth-сервиса написан как
+# `…/android.hardware.bluetooth-service.mediatek` (точка вместо дефиса) — совпадал только
+# finder-service. Здесь правильный путь.
+
+# --- HAL/сервисы стока: домен есть в политике MediaTek, шаблона не было
+/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.odm    u:object_r:hal_fingerprint_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.bluetooth-service-mediatek    u:object_r:mtk_hal_bluetooth_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.boot-service\.mtk    u:object_r:hal_bootctl_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.neuralnetworks-shim-service-mtk-lazy    u:object_r:mtk_hal_neuralnetworks_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.nfc-service-tms    u:object_r:hal_nfc_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.usb-aidl-service\.mediatek    u:object_r:mtk_hal_usb_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.usb\.gadget-aidl-service\.mediatek    u:object_r:mtk_hal_usb_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.dolby\.media\.c2-default-service-dax    u:object_r:mediacodec_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.mediatek\.hardware\.aee@V1-service    u:object_r:aee_hal_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.xiaomi\.hardware\.vibratorfeature\.service    u:object_r:hal_vibrator_default_exec:s0
+/(vendor|system/vendor)/bin/mt6789/v3avpud-64b\.mt6789    u:object_r:vpud_native_exec:s0
+
+# --- плагины камеры и графики стока: метка стока same_process_hal_file, иначе их не мапит
+#     system-процесс (legacy camera HAL3 идёт внутри cameraserver, gralloc — в его же процессе)
+/(vendor|system/vendor)/lib/libTrueSight\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/libVkLayer_mfrc\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/libcom\.xiaomi\.metadatautils\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/libcom\.xiaomi\.pluginutils\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/libpqxmlflagparser\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/mt6789/libarm_egl_properties_sysprop\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/mt6789/libarm_gralloc_properties_sysprop\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/mt6789/libarm_mali_config_sysprops\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/mt6789/libhdrvideo\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib/mt6789/libscltm\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.capbokeh\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.ldc\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.memcpy\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.mibokeh\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.morphohdr\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.morphohdsr\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.photosolid\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.skinbeautifier\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.superlowlight\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/com\.xiaomi\.plugin\.swflip\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libTrueSight\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libVkLayer_mfrc\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libanc_dc_base\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libanc_hdr\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libanc_hdr_adapter_AncSuperNightLite\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libanc_night\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libanc_single_bokeh\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libc\+\+_shared\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libcom\.xiaomi\.metadatautils\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libcom\.xiaomi\.pluginutils\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmialgo_ai_vision\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmialgo_utils\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmialgoengine\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmialgoengine2\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmorpho_HDSR\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmorpho_ImageRefiner\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmorpho_ImageRefinerLite\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmorpho_Ldc\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmorpho_MFNR\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libmpbase\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libpqxmlflagparser\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/libwa_dof\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libarm_egl_properties_sysprop\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libarm_gralloc_properties_sysprop\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libarm_mali_config_sysprops\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libhdrvideo\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libscltm\.so    u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/vendor\.mediatek\.hardware\.camera\.isphal@1\.0\.so    u:object_r:same_process_hal_file:s0

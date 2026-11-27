@@ -404,6 +404,7 @@ PRODUCT_PACKAGES += \
     emerald_overlay_WifiResMainlineOverlay \
     emerald_overlay_WifiResOverlay
 
-# The vendor partition ships the stock 305 policy in /vendor/etc/selinux (part of the blobs) and init
-# compiles it against our platform policy at boot. The compiled vendor policy is part of the platform
-# vendor set dropped above; BOARD_VENDOR_SEPOLICY_DIRS is empty for the same reason (BoardConfig.mk).
+# The vendor partition gets its policy from the platform build: the MediaTek source policy
+# (device/mediatek/sepolicy_vndr, included in BoardConfig.mk) plus our own vendor dir
+# (device/xiaomi/emerald/sepolicy/vendor) with file_contexts for the stock blobs. The stock
+# /vendor/etc/selinux files are not shipped: the platform's install rules own those paths.

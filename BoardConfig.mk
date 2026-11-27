@@ -182,6 +182,11 @@ TARGET_USERIMAGES_USE_F2FS := true
 # source policy while the binaries are stock 305 (Android 16), a mismatch shows up as init denials.
 include device/mediatek/sepolicy_vndr/SEPolicy.mk
 
+# Our own vendor policy dir: file_contexts for stock blobs whose type exists in the MediaTek policy
+# but whose path pattern is missing there (59 paths, found by vendor-diff 28.11). Needs the vendor
+# policy (hal_*_default_exec), hence BOARD_VENDOR_SEPOLICY_DIRS and not the system_ext private dir.
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+
 # Compat map of the system_ext public types for the stock vendor's 202504 policy (see the file)
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 
