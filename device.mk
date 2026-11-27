@@ -362,9 +362,16 @@ PRODUCT_PACKAGES += \
 TARGET_BOARD_PLATFORM := mt6789
 
 # Soong namespaces
+# hardware/google/* — ради thermal-HAL: android.hardware.thermal-service.mediatek (наш форк
+# hardware/mediatek) линкует pixel-power-ext-V1-ndk (hardware/google/interfaces/power) и
+# pixelatoms-cpp (hardware/google/pixel/pixelstats, вложенный soong_namespace). Без этих каталогов
+# в PRODUCT_SOONG_NAMESPACES их required из vendor/xiaomi/emerald-platform-deps валит kati
+# («requires non-existent TARGET module», 27.11).
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/mediatek
+    hardware/mediatek \
+    hardware/google/interfaces \
+    hardware/google/pixel/pixelstats
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/emerald/emerald-vendor.mk)

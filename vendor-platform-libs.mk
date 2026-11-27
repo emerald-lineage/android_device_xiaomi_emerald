@@ -140,15 +140,22 @@ PRODUCT_PACKAGES += \
     emerald_vendor_deps_94 \
     emerald_vendor_deps_95 \
     emerald_vendor_deps_96 \
-    emerald_vendor_deps_97
+    emerald_vendor_deps_97 \
+    emerald_vendor_deps_98 \
+    emerald_vendor_deps_99 \
+    emerald_vendor_deps_100
 
-# НЕ покрыто: android.hardware.camera.common-V2-ndk. В дереве интерфейс заморожен на V1, а сток требует
-# V2 — платформа такую версию собрать не может (soong: «unfrozen development version … frozen: true»),
-# а копией файла нельзя: платформа держит правило на тот же путь (precheck: «дубли правил с платформой»).
-# Следствие до отдельного решения: camerahalserver не получит библиотеку, камера не заработает.
-# Варианты — патч заморозки V2 в hardware/interfaces или отказ камеры на первую загрузку.
+# Камера (B20): android.hardware.camera.common заморожен на V2 в форке hardware/interfaces
+# (emerald-lineage, ветка main) — только после заморозки платформа собирает vendor-вариант V2,
+# которого требует блоб libmtkcam_hal_aidl_common.so (DT_NEEDED camera.common-V2-ndk.so).
+# Заморозки мало: в /vendor библиотеку кладёт `required` от vendor-модуля (emerald_vendor_deps_100).
+# Стоковая V2-библиотека побайтово равна V1, поэтому V2 заморожен без изменений API. Блоб на этот
+# путь класть нельзя — платформа держит правило на тот же файл.
 
-# НЕ покрыты (27.11 21:29): pixel-power-ext-V1-ndk и pixelatoms-cpp, которые тянет платформенный
-# thermal-HAL через android.frameworks.stats. Модули есть в дереве, но hardware/google вне
-# PRODUCT_SOURCE_ROOT_DIRS — kati падает «requires non-existent TARGET module». Следствие: thermal HAL
-# не загрузится; варианты — включить hardware/google в корни или не ставить платформенный thermal.
+# 98/99 — thermal-HAL (27.11): android.hardware.thermal-service.mediatek требует
+# pixel-power-ext-V1-ndk (hardware/google/interfaces/power) и pixelatoms-cpp
+# (hardware/google/pixel/pixelstats). Оба модуля живут в soong_namespace, поэтому сначала каталоги
+# в PRODUCT_SOONG_NAMESPACES (device.mk), потом required здесь.
+# Это платформенные библиотеки, а не блобы: для vendor_available-модуля (pixel-power-ext) 
+# PRODUCT_PACKAGES поставил бы только system-вариант, vendor-only (pixelatoms-cpp) не установился
+# бы вовсе; в /vendor оба варианта тянет только required от vendor-модуля.
