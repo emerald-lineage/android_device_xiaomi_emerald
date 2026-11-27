@@ -76,6 +76,12 @@ BOARD_RAMDISK_USE_LZ4 := true
 # Display (stock ro.sf.lcd_density)
 TARGET_SCREEN_DENSITY := 480
 
+# HWUI on Vulkan, as on the stock 305 vendor (ro.hwui.use_vulkan=true). The build writes this prop
+# into the vendor build.prop only (ADDITIONAL_VENDOR_PROPERTIES, sysprop_config.mk); without the flag
+# it is empty, and a vendor image we build ourselves would turn HWUI back to SkiaGL — the stock
+# partition we ship today keeps Vulkan through its own build.prop (device.mk, RenderEngine note).
+TARGET_USES_VULKAN := true
+
 # Health: LineageOS charging control switches the charger input off and on (no bypass). The
 # service ships prebuilt in vendor.img (prebuilts/lineage-health); these are its build flags.
 $(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/power_supply/battery/input_suspend)

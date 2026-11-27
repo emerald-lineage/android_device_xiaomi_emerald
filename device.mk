@@ -55,9 +55,10 @@ PRODUCT_PACKAGES += \
     fstab.mt6789
 
 # HIDL interfaces of the aee blob (vendor/etc/init of the stock image declares them: 1.0 and 1.1).
-# Only the build-time metadata: see Android.bp next to this file.
-PRODUCT_PACKAGES += \
-    hidl_vendor_mediatek_hardware_aee_interface
+# The module in Android.bp is build-time metadata only: prebuilt_hidl_interfaces has no install
+# rules, so kati rejects the name in PRODUCT_PACKAGES ("includes non-existent modules"). The
+# hidl_metadata_json singleton pulls such modules in through the reverse dependency in its
+# DepsMutator, exactly as hardware/mediatek registers the stock interfaces (26.11, run 18:17).
 
 # The vendor linker configuration of the stock image: provideLibs with liboemcrypto.so (17 bytes).
 # See configs/linker.config.vendor.json for why the platform does not generate it itself.
