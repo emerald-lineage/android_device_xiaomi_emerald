@@ -34,7 +34,7 @@ PRODUCT_PACKAGES += \
     wlan_assistant \
     wpa_supplicant
 
-# Тянет в /vendor 98 библиотек из DT_NEEDED блобов (по одному required на модуль; 9 из них
+# Тянет в /vendor 97 библиотек из DT_NEEDED блобов (по одному required на модуль; 9 из них
 # платформа ставит и сама как vendor: true, остальные 91 — только так). Модулей 98, а не один:
 # soong запрещает графу зависеть от двух версий одного aidl_interface, проверка транзитивная —
 # 17:14 упало на audio.effect V2+V3, 17:20 на graphics.common V6+V7, где V7 пришёл транзитивно.
@@ -140,5 +140,10 @@ PRODUCT_PACKAGES += \
     emerald_vendor_deps_94 \
     emerald_vendor_deps_95 \
     emerald_vendor_deps_96 \
-    emerald_vendor_deps_97 \
-    emerald_vendor_deps_98
+    emerald_vendor_deps_97
+
+# НЕ покрыто: android.hardware.camera.common-V2-ndk. В дереве интерфейс заморожен на V1, а сток требует
+# V2 — платформа такую версию собрать не может (soong: «unfrozen development version … frozen: true»),
+# а копией файла нельзя: платформа держит правило на тот же путь (precheck: «дубли правил с платформой»).
+# Следствие до отдельного решения: camerahalserver не получит библиотеку, камера не заработает.
+# Варианты — патч заморозки V2 в hardware/interfaces или отказ камеры на первую загрузку.
