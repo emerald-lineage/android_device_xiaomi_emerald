@@ -34,12 +34,17 @@ PRODUCT_PACKAGES += \
     wlan_assistant \
     wpa_supplicant
 
-# Тянет в /vendor 98 библиотек из DT_NEEDED блобов (список — в required модуля; 9 из них платформа
-# ставит и сама как vendor: true, остальные 91 — только так).
-# Сам модуль живёт в vendor/xiaomi/emerald-platform-deps/ — не в этом дереве: зависимости
+# Тянет в /vendor 98 библиотек из DT_NEEDED блобов (списки — в required пяти модулей; 9 из них
+# платформа ставит и сама как vendor: true, остальные 91 — только так). Модулей пять, а не один:
+# soong запрещает одному графу зависеть от двух версий одного aidl_interface (27.11 17:14).
+# Сами модули живут в vendor/xiaomi/emerald-platform-deps/ — не в этом дереве: зависимости
 # (libhidltransport, libhwbinder, libmnl) объявляют visibility //vendor:__subpackages__, а у нас
-# здесь soong_namespace, и soong падал на анализе. Каталог вне git-проектов: два файла,
-# переживает repo sync; если его удалить, сборка упадёт на «module emerald_vendor_platform_deps
-# not found».
+# здесь soong_namespace, и soong падал на анализе. Каталог вне git-проектов: переживает repo sync,
+# копии файлов — scripts/templates/vendor-platform-deps в emerald-build; если его удалить, сборка
+# упадёт на «module emerald_vendor_deps_1 not found».
 PRODUCT_PACKAGES += \
-    emerald_vendor_platform_deps
+    emerald_vendor_deps_1 \
+    emerald_vendor_deps_2 \
+    emerald_vendor_deps_3 \
+    emerald_vendor_deps_4 \
+    emerald_vendor_deps_5
