@@ -140,9 +140,7 @@ PRODUCT_PACKAGES += \
     emerald_vendor_deps_94 \
     emerald_vendor_deps_95 \
     emerald_vendor_deps_96 \
-    emerald_vendor_deps_97 \
-    emerald_vendor_deps_98 \
-    emerald_vendor_deps_99
+    emerald_vendor_deps_97
 
 # НЕ покрыто: android.hardware.camera.common-V2-ndk. В дереве интерфейс заморожен на V1, а сток требует
 # V2 — платформа такую версию собрать не может (soong: «unfrozen development version … frozen: true»),
@@ -150,5 +148,7 @@ PRODUCT_PACKAGES += \
 # Следствие до отдельного решения: camerahalserver не получит библиотеку, камера не заработает.
 # Варианты — патч заморозки V2 в hardware/interfaces или отказ камеры на первую загрузку.
 
-# Две последние (pixel-power-ext-V1-ndk, pixelatoms-cpp) появились после того, как в раздел попал
-# платформенный thermal-HAL: его android.frameworks.stats тянет pixel-атомы. В стоке их не было.
+# НЕ покрыты (27.11 21:29): pixel-power-ext-V1-ndk и pixelatoms-cpp, которые тянет платформенный
+# thermal-HAL через android.frameworks.stats. Модули есть в дереве, но hardware/google вне
+# PRODUCT_SOURCE_ROOT_DIRS — kati падает «requires non-existent TARGET module». Следствие: thermal HAL
+# не загрузится; варианты — включить hardware/google в корни или не ставить платформенный thermal.
