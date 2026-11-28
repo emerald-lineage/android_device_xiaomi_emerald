@@ -1,0 +1,72 @@
+# Домен стокового сервиса hypsys_vendor (`/vendor/bin/hypsys_vendor`, сток 305: hypsys_vendor.rc,
+# `service vendor.misys.common`, `interface aidl vendor.xiaomi.hardware.misys.common.IMiSysImpl/default`).
+# 28.11 (pstore первой загрузки вендора): у бинарника не было метки (vendor_file), у сервисов —
+# строк в service_contexts; сервис падал на avc. Типы и правила — из стока 305 (vendor_sepolicy.cil):
+# взяты те, чьи цели есть в нашей скомпилированной политике. Отброшены цели, которых у нас нет
+# (camera_persist_file, mtkdump_*, minidump_*, vendor_sysfs_*, *_prop Xiaomi и др.), и правила,
+# которые в Android 17 рискуют пересечь neverallow: binder к su/system_app, setattr на rootfs,
+# запись в fuse/appdomain_tmpfs, sys_boot. Недостающее доберём по avc в permissive (как mi_ic, B21).
+type hal_misys_vendor_default, domain;
+type hal_misys_vendor_default_exec, exec_type, file_type, vendor_file_type;
+# Имена типов сервисов — как в vendor_service_contexts стока 305.
+type hal_misys_vendor_service, service_manager_type;
+# IMiSysCore отдаёт другой бинарник (bin/hw/vendor.xiaomi.hardware.misys.core.service, домена
+# hal_misyscore_default у нас пока нет — B21); тип нужен, чтобы строка service_contexts была валидной.
+type hal_misyscore_service, service_manager_type;
+
+init_daemon_domain(hal_misys_vendor_default)
+hal_server_domain(hal_misys_vendor_default, hal_misys_vendor)
+add_service(hal_misys_vendor_default, hal_misys_vendor_service)
+binder_use(hal_misys_vendor_default)
+
+allow hal_misys_vendor_server dumpstate:fd use;
+allow hal_misys_vendor_server dumpstate:fifo_file write;
+
+allow hal_misys_vendor_default self:capability { chown fsetid };
+allow hal_misys_vendor_default self:capability2 block_suspend;
+allow hal_misys_vendor_default self:netlink_kobject_uevent_socket { read create bind setopt };
+
+allow hal_misys_vendor_default kernel:system syslog_read;
+allow hal_misys_vendor_default kmsg_device:chr_file rw_file_perms;
+allow hal_misys_vendor_default init:unix_stream_socket connectto;
+allow hal_misys_vendor_default property_socket:sock_file write;
+get_prop(hal_misys_vendor_default, boot_status_prop)
+get_prop(hal_misys_vendor_default, hwservicemanager_prop)
+get_prop(hal_misys_vendor_default, vendor_default_prop)
+get_prop(hal_misys_vendor_default, vendor_fp_prop)
+get_prop(hal_misys_vendor_default, vendor_mtk_persist_aeev_prop)
+
+allow hal_misys_vendor_default hwservicemanager:binder { call transfer };
+allow hal_misys_vendor_default hidl_manager_hwservice:hwservice_manager find;
+allow hal_misys_vendor_default hal_system_suspend_service:service_manager find;
+allow hal_misys_vendor_default system_suspend_hwservice:hwservice_manager find;
+allow hal_misys_vendor_default system_suspend_server:binder { call transfer };
+allow hal_misys_vendor_default system_suspend_server:fd use;
+allow hal_misys_vendor_default sysfs_wake_lock:file rw_file_perms;
+
+r_dir_file(hal_misys_vendor_default, proc)
+allow hal_misys_vendor_default proc_meminfo:file r_file_perms;
+r_dir_file(hal_misys_vendor_default, pstorefs)
+r_dir_file(hal_misys_vendor_default, cgroup)
+r_dir_file(hal_misys_vendor_default, sysfs)
+r_dir_file(hal_misys_vendor_default, sysfs_type)
+r_dir_file(hal_misys_vendor_default, sysfs_memory)
+allow hal_misys_vendor_default sysfs_batteryinfo:file r_file_perms;
+allow hal_misys_vendor_default sysfs_usb:file w_file_perms;
+allow hal_misys_vendor_default hidraw_device:chr_file rw_file_perms;
+
+allow hal_misys_vendor_default tmpfs:dir search;
+allow hal_misys_vendor_default mnt_user_file:dir search;
+allow hal_misys_vendor_default mnt_user_file:lnk_file read;
+allow hal_misys_vendor_default storage_file:lnk_file read;
+allow hal_misys_vendor_default mnt_vendor_file:dir create_dir_perms;
+allow hal_misys_vendor_default mnt_vendor_file:file create_file_perms;
+allow hal_misys_vendor_default persist_data_file:dir create_dir_perms;
+allow hal_misys_vendor_default persist_data_file:file create_file_perms;
+allow hal_misys_vendor_default vendor_data_file:dir { search write add_name };
+allow hal_misys_vendor_default vendor_data_file:file { read write create getattr setattr open };
+allow hal_misys_vendor_default aee_exp_vendor_file:dir create_dir_perms;
+allow hal_misys_vendor_default aee_exp_vendor_file:file create_file_perms;
+allow hal_misys_vendor_default vfat:dir create_dir_perms;
+allow hal_misys_vendor_default vfat:file create_file_perms;
+allow hal_misys_vendor_default vendor_toolbox_exec:file { read getattr execute open };

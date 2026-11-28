@@ -12,30 +12,34 @@
 # PRODUCT_PACKAGES для `vendor_available: true` даёт лишь system-вариант (проверено 27.11: после
 # прогона с 98 модулями в PRODUCT_PACKAGES в ninja не было ни одного vendor-пути, интермедиатов
 # vendor-варианта тоже; из 98 поставились 9 — те, что `vendor: true`). Поэтому библиотеки идут через
-# `required` модуля emerald_vendor_platform_deps (vendor-platform-deps/Android.bp), а здесь — только
-# сервисы и сам этот модуль.
+# `shared_libs` модулей-держателей emerald_vendor_deps_* (vendor/xiaomi/emerald-platform-deps), а
+# здесь — только сервисы и сами держатели. `required` для этого не годится (28.11): он ставит
+# system-вариант, и 89 библиотек уехали в /system/lib64.
 #
 # Правило на будущее: сюда попадает модуль только при доказанной нужде — его soname есть в DT_NEEDED
 # файлов раздела (аудит: scripts/vendor-needed.py в emerald-build), а не «на всякий случай».
 
 # Сервисы и демоны раздела: сток их содержал, у нас не было ни бинарника, ни init-скрипта.
 # Без vndservicemanager не поднимается ни один vendor-HAL (это менеджер сервисов раздела), без
-# wpa_supplicant/hostapd нет wifi, без thermal-mediatek нет термоконтроля. Найдено 27.11 вторым
-# аудитом — по init-скриптам образа: сервис есть, бинарника нет.
+# wpa_supplicant/hostapd нет wifi. Найдено 27.11 вторым аудитом — по init-скриптам образа: сервис
+# есть, бинарника нет.
+# thermal-HAL здесь больше нет (28.11): платформенный android.hardware.thermal-service.mediatek ставил
+# свой VINTF-фрагмент рядом со стоковым thermal-mediatek.xml — оба IThermal/default @3, libvintf
+# отверг манифест устройства целиком (NULL VINTF MANIFEST, все vendor-HAL — SIGABRT). Бинарник,
+# rc и фрагмент теперь стоковые, из блобов (vendor-blobs/list.py, путь ушёл из FROM_SOURCE).
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey \
     android.hardware.ir-service.example \
     android.hardware.memtrack-service.mediatek \
     android.hardware.nfc2-service.nxp \
     android.hardware.sensors-service.multihal \
-    android.hardware.thermal-service.mediatek \
     android.hardware.wifi-service-lazy \
     vndservicemanager \
     wlan_assistant \
     wpa_supplicant
 
-# Тянет в /vendor 99 библиотек из DT_NEEDED файлов раздела (по одному required на модуль; 9 из них
-# платформа ставит и сама как vendor: true, остальные 91 — только так). Модулей 98, а не один:
+# Тянут в /vendor 179 библиотек из DT_NEEDED файлов раздела (по одной в shared_libs на модуль,
+# разрядности — ровно нужные образу; транзитивные зависимости soong ставит сам). Модулей 179, а не один:
 # soong запрещает графу зависеть от двух версий одного aidl_interface, проверка транзитивная —
 # 17:14 упало на audio.effect V2+V3, 17:20 на graphics.common V6+V7, где V7 пришёл транзитивно.
 # Сами модули живут в vendor/xiaomi/emerald-platform-deps/ — не в этом дереве: зависимости
@@ -143,19 +147,90 @@ PRODUCT_PACKAGES += \
     emerald_vendor_deps_97 \
     emerald_vendor_deps_98 \
     emerald_vendor_deps_99 \
-    emerald_vendor_deps_100
+    emerald_vendor_deps_100 \
+    emerald_vendor_deps_101 \
+    emerald_vendor_deps_102 \
+    emerald_vendor_deps_103 \
+    emerald_vendor_deps_104 \
+    emerald_vendor_deps_105 \
+    emerald_vendor_deps_106 \
+    emerald_vendor_deps_107 \
+    emerald_vendor_deps_108 \
+    emerald_vendor_deps_109 \
+    emerald_vendor_deps_110 \
+    emerald_vendor_deps_111 \
+    emerald_vendor_deps_112 \
+    emerald_vendor_deps_113 \
+    emerald_vendor_deps_114 \
+    emerald_vendor_deps_115 \
+    emerald_vendor_deps_116 \
+    emerald_vendor_deps_117 \
+    emerald_vendor_deps_118 \
+    emerald_vendor_deps_119 \
+    emerald_vendor_deps_120 \
+    emerald_vendor_deps_121 \
+    emerald_vendor_deps_122 \
+    emerald_vendor_deps_123 \
+    emerald_vendor_deps_124 \
+    emerald_vendor_deps_125 \
+    emerald_vendor_deps_126 \
+    emerald_vendor_deps_127 \
+    emerald_vendor_deps_128 \
+    emerald_vendor_deps_129 \
+    emerald_vendor_deps_130 \
+    emerald_vendor_deps_131 \
+    emerald_vendor_deps_132 \
+    emerald_vendor_deps_133 \
+    emerald_vendor_deps_134 \
+    emerald_vendor_deps_135 \
+    emerald_vendor_deps_136 \
+    emerald_vendor_deps_137 \
+    emerald_vendor_deps_138 \
+    emerald_vendor_deps_139 \
+    emerald_vendor_deps_140 \
+    emerald_vendor_deps_141 \
+    emerald_vendor_deps_142 \
+    emerald_vendor_deps_143 \
+    emerald_vendor_deps_144 \
+    emerald_vendor_deps_145 \
+    emerald_vendor_deps_146 \
+    emerald_vendor_deps_147 \
+    emerald_vendor_deps_148 \
+    emerald_vendor_deps_149 \
+    emerald_vendor_deps_150 \
+    emerald_vendor_deps_151 \
+    emerald_vendor_deps_152 \
+    emerald_vendor_deps_153 \
+    emerald_vendor_deps_154 \
+    emerald_vendor_deps_155 \
+    emerald_vendor_deps_156 \
+    emerald_vendor_deps_157 \
+    emerald_vendor_deps_158 \
+    emerald_vendor_deps_159 \
+    emerald_vendor_deps_160 \
+    emerald_vendor_deps_161 \
+    emerald_vendor_deps_162 \
+    emerald_vendor_deps_163 \
+    emerald_vendor_deps_164 \
+    emerald_vendor_deps_165 \
+    emerald_vendor_deps_166 \
+    emerald_vendor_deps_167 \
+    emerald_vendor_deps_168 \
+    emerald_vendor_deps_169 \
+    emerald_vendor_deps_170 \
+    emerald_vendor_deps_171 \
+    emerald_vendor_deps_172 \
+    emerald_vendor_deps_173 \
+    emerald_vendor_deps_174 \
+    emerald_vendor_deps_175 \
+    emerald_vendor_deps_176 \
+    emerald_vendor_deps_177 \
+    emerald_vendor_deps_178 \
+    emerald_vendor_deps_179
 
 # Камера (B20): android.hardware.camera.common заморожен на V2 в форке hardware/interfaces
 # (emerald-lineage, ветка main) — только после заморозки платформа собирает vendor-вариант V2,
 # которого требует блоб libmtkcam_hal_aidl_common.so (DT_NEEDED camera.common-V2-ndk.so).
-# Заморозки мало: в /vendor библиотеку кладёт `required` от vendor-модуля (emerald_vendor_deps_100).
+# Заморозки мало: в /vendor библиотеку кладёт `shared_libs` vendor-модуля-держателя (emerald_vendor_deps_*).
 # Стоковая V2-библиотека побайтово равна V1, поэтому V2 заморожен без изменений API. Блоб на этот
 # путь класть нельзя — платформа держит правило на тот же файл.
-
-# 98/99 — thermal-HAL (27.11): android.hardware.thermal-service.mediatek требует
-# pixel-power-ext-V1-ndk (hardware/google/interfaces/power) и pixelatoms-cpp
-# (hardware/google/pixel/pixelstats). Оба модуля живут в soong_namespace, поэтому сначала каталоги
-# в PRODUCT_SOONG_NAMESPACES (device.mk), потом required здесь.
-# Это платформенные библиотеки, а не блобы: для vendor_available-модуля (pixel-power-ext) 
-# PRODUCT_PACKAGES поставил бы только system-вариант, vendor-only (pixelatoms-cpp) не установился
-# бы вовсе; в /vendor оба варианта тянет только required от vendor-модуля.

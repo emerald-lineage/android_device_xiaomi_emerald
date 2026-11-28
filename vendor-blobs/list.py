@@ -16,7 +16,7 @@ Rules, all applied from scratch so the result does not depend on earlier fixes:
     (MODULE=emerald_blob_...) with the file name kept by stem, so a blob never fights a source module
     for the vendor partition (AIDL/HIDL interface libraries, vendor_available libraries);
   * libraries that exist in the tree only as system_ext modules are plain copies too;
-  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 658 of
+  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 655 of
     them): soong packs the vendor variant of every vendor_available module in PRODUCT_PACKAGES, and a
     second rule for the same path is a kati error.
 """
@@ -48,18 +48,26 @@ COPY_RULE_ONLY = {
 # makefile runs before the inherited lists are merged, and `overrides` only affects fsgen packing - the
 # install rule still comes from the module itself (checked 25.11: passwd_vendor and toybox_vendor stayed
 # installed while listed in `overrides` of the phony module we had). So these paths come from the source
-# tree, not from the image: 658 of them - 401 from the first wave (20 name clashes, 388 reported by kati
+# tree, not from the image: 655 of them - 401 from the first wave (20 name clashes, 388 reported by kati
 # on the first vendorimage build that got through soong, 25.11 19:47, minus 7 kept as blobs back then),
 # 245 found by comparing the final list against installs-lineage_emerald.mk (vendor paths this list
 # still wrote while the platform installed them, both module and copy-rule ones), 2 more libmnl
 # (mt6789 copies: the platform's libmnl.so clashed with our symlinks), 4 vintf fragments the make side
 # copies for the platform HALs, 5 aconfig files (packaging/flags.mk), and minus the Widevine apex, which
-# only we install, so it stays a blob. Two of the 658 (bpf/filterPowerSupplyEvents.o, linker.config.pb)
+# only we install, so it stays a blob. Two of the 655 (bpf/filterPowerSupplyEvents.o, linker.config.pb)
 # come from the full duplicate list of 26.11: kati stops at the first one, so the whole list was
 # collected with BUILD_BROKEN_DUP_RULES. The third path of that list, the `lib/modules` symlink, is not
 # in FROM_SOURCE: it was ours by hand in vendor_symlinks/Android.bp, and the platform makes it itself.
 #
-# The stock copies of libaedv, audio.bluetooth.default, vendor.mediatek.hardware.bluetooth.audio-V1-ndk
+# Back to the stock blobs (28.11, pstore of the first vendor boot): libaedv - the tree's
+# hardware/mediatek/libaedv is a 5-symbol stub, the stock one exports 137, and aee_aedv64_v2 died on
+# `usersmaps_info`; the thermal HAL binary - the platform build came with its own vintf fragment next to
+# the stock thermal-mediatek.xml, both IThermal/default @3, and libvintf dropped the whole device
+# manifest (and that build needs a thermal_info_config.json emerald does not have). Both modules are
+# `enabled: false` in our hardware/mediatek fork: soong writes an install rule for every enabled module,
+# in PRODUCT_PACKAGES or not, so the blob would hit kati's duplicate rule. The ABI check below is necessary, not sufficient: it compares imports with the new build of
+# the same library, so a stub that never had the symbols slips through.
+# The stock copies of audio.bluetooth.default, vendor.mediatek.hardware.bluetooth.audio-V1-ndk
 # (both bitnesses) and nfc_nci_nxp_snxxx_v2 are built from MediaTek's and NXP's own sources, so the
 # image keeps the tree's Android 17 build of them instead of the stock one - a conscious trade (option
 # "the platform owns what it installs", user 25.11): the alternative, a phony `overrides` module, does
@@ -85,7 +93,6 @@ FROM_SOURCE = {
     '/bin/hw/android.hardware.memtrack-service.mediatek',
     '/bin/hw/android.hardware.nfc2-service.nxp',
     '/bin/hw/android.hardware.sensors-service.multihal',
-    '/bin/hw/android.hardware.thermal-service.mediatek',
     '/bin/hw/android.hardware.wifi-service-lazy',
     '/bin/hw/wpa_supplicant',
     '/bin/logwrapper',
@@ -261,7 +268,6 @@ FROM_SOURCE = {
     '/lib/libRSDriver.so',
     '/lib/libRS_internal.so',
     '/lib/libaconfig_storage_read_api_cc.so',
-    '/lib/libaedv.so',
     '/lib/libalsautils.so',
     '/lib/libalsautilsv2.so',
     '/lib/libaudio_aidl_conversion_common_ndk.so',
@@ -556,7 +562,6 @@ FROM_SOURCE = {
     '/lib64/libRS_internal.so',
     '/lib64/lib_android_keymaster_keymint_utils.so',
     '/lib64/libaconfig_storage_read_api_cc.so',
-    '/lib64/libaedv.so',
     '/lib64/libalsautils.so',
     '/lib64/libalsautilsv2.so',
     '/lib64/libaudio_aidl_conversion_common_ndk.so',

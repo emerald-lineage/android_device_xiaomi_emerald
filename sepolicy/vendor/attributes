@@ -3,3 +3,7 @@
 attribute vendor_hal_citsensorservice_xiaomi;
 attribute vendor_hal_citsensorservice_xiaomi_client;
 attribute vendor_hal_citsensorservice_xiaomi_server;
+# hypsys_vendor (сток 305, hal_misys_vendor.te): атрибуты hal_server_domain(…, hal_misys_vendor).
+attribute hal_misys_vendor;
+attribute hal_misys_vendor_client;
+attribute hal_misys_vendor_server;

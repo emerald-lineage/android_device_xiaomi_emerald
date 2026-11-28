@@ -110,3 +110,6 @@
 /(vendor|system/vendor)/bin/mishow\.sh              u:object_r:mishow_exec:s0
 /(vendor|system/vendor)/bin/backlight_bin           u:object_r:backlight_exec:s0
 /(vendor|system/vendor)/bin/tptest_bin              u:object_r:backlight_exec:s0
+
+# --- hypsys_vendor (28.11, pstore первой загрузки: avc без метки); домен — hal_misys_vendor.te
+/(vendor|system/vendor)/bin/hypsys_vendor    u:object_r:hal_misys_vendor_default_exec:s0

@@ -49,7 +49,7 @@ system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 # (vendor_dlkm) is not here any more: the platform makes it itself.
 # MODULE=emerald_blob_<name> keeps the file name (stem) while giving the prebuilt module a name no
 # module of the source tree has; MAKE_COPY_RULE_ONLY installs a file without a module.
-# 658 libraries are not listed: the platform installs its own build of them into the vendor image
+# 655 libraries are not listed: the platform installs its own build of them into the vendor image
 # (FROM_SOURCE in vendor-blobs/list.py, see there for why and for the ABI check).
 # The static RROs (/overlay/*.apk) are in the device tree: prebuilts/overlays/.
 vendor/apex/com.google.android.widevine.nonupdatable.apex
@@ -123,6 +123,7 @@ vendor/bin/hw/android.hardware.neuralnetworks-shim-service-mtk-lazy;MAKE_COPY_RU
 vendor/bin/hw/android.hardware.nfc-service-tms;MAKE_COPY_RULE_ONLY
 vendor/bin/hw/android.hardware.secure_element@1.2-service-mediatek;MAKE_COPY_RULE_ONLY
 vendor/bin/hw/android.hardware.security.keymint@4.0-service.mitee;MAKE_COPY_RULE_ONLY
+vendor/bin/hw/android.hardware.thermal-service.mediatek;MAKE_COPY_RULE_ONLY
 vendor/bin/hw/android.hardware.usb-aidl-service.mediatek;MAKE_COPY_RULE_ONLY
 vendor/bin/hw/android.hardware.usb.gadget-aidl-service.mediatek;MAKE_COPY_RULE_ONLY
 vendor/bin/hw/hostapd;MAKE_COPY_RULE_ONLY
@@ -2639,6 +2640,7 @@ vendor/lib/libaal_cust.so;MODULE=emerald_blob_libaal_cust;DISABLE_DEPS
 vendor/lib/libaal_key.so;MODULE=emerald_blob_libaal_key;DISABLE_DEPS
 vendor/lib/libaal_sec.so;MODULE=emerald_blob_libaal_sec;DISABLE_DEPS
 vendor/lib/libadaptivehdr.so;MODULE=emerald_blob_libadaptivehdr;DISABLE_DEPS
+vendor/lib/libaedv.so;MODULE=emerald_blob_libaedv;DISABLE_DEPS
 vendor/lib/libapmonitor_vendor.so;MODULE=emerald_blob_libapmonitor_vendor;DISABLE_DEPS
 vendor/lib/libappgamepq.so;MODULE=emerald_blob_libappgamepq;DISABLE_DEPS
 vendor/lib/libapu_mdw.so;MODULE=emerald_blob_libapu_mdw;DISABLE_DEPS
@@ -3735,6 +3737,7 @@ vendor/lib64/libaal_cust.so;MODULE=emerald_blob_libaal_cust;DISABLE_DEPS
 vendor/lib64/libaal_key.so;MODULE=emerald_blob_libaal_key;DISABLE_DEPS
 vendor/lib64/libaal_sec.so;MODULE=emerald_blob_libaal_sec;DISABLE_DEPS
 vendor/lib64/libadaptivehdr.so;MODULE=emerald_blob_libadaptivehdr;DISABLE_DEPS
+vendor/lib64/libaedv.so;MODULE=emerald_blob_libaedv;DISABLE_DEPS
 vendor/lib64/libaimemc.so;MODULE=emerald_blob_libaimemc;DISABLE_DEPS
 vendor/lib64/libaiste.so;MODULE=emerald_blob_libaiste;DISABLE_DEPS
 vendor/lib64/libanc_dc_base.so;MODULE=emerald_blob_libanc_dc_base;DISABLE_DEPS
