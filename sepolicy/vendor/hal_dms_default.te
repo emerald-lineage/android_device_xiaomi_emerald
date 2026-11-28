@@ -1,0 +1,16 @@
+# Адаптировано из xaveroprjkt/device_xiaomi_emerald (ветка lineage-24.0, sepolicy/vendor/hal_dms_default.te,
+# hal_dms.te, hal_audio_default.te), Apache-2.0. Имена в стоке 305 другие: домен
+# hal_aidl_dms_default (метка /vendor/bin/hw/vendor.dolby.dms.service), сервис
+# vendor.dolby.dms.IDms/default → hal_aidl_dms_service, данные — родовой vendor_data_file.
+# У xavero HIDL vendor.dolby.hardware.dms::IDms, поэтому их имена не подходят.
+type hal_aidl_dms_default, domain;
+type hal_aidl_dms_default_exec, exec_type, file_type, vendor_file_type;
+type hal_aidl_dms_service, service_manager_type;
+
+init_daemon_domain(hal_aidl_dms_default)
+add_service(hal_aidl_dms_default, hal_aidl_dms_service)
+
+binder_call(hal_aidl_dms_default, hal_audio_default)
+
+allow hal_aidl_dms_default vendor_data_file:dir rw_dir_perms;
+allow hal_aidl_dms_default vendor_data_file:file create_file_perms;

@@ -1,0 +1,11 @@
+# Домен стокового mishow (`/vendor/bin/sh /vendor/bin/mishow.sh 1|0`, сток 305:
+# init.mt6789.rc — сервисы mishow_start/mishow_stop, class main, user/group system,
+# disabled, oneshot, `seclabel u:r:mishow:s0`; запуск по `vendor.charge.mishow.ctl`).
+# Заготовка B21. Отброшены правила на sysfs_battery_supply и sysfs_thp_enabled —
+# таких типов в нашей политике нет (см. отчёт).
+type mishow, domain;
+type mishow_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(mishow)
+
+allow mishow vendor_shell_exec:file { ioctl read getattr lock map execute open watch watch_reads execute_no_trans entrypoint };

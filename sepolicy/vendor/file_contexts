@@ -78,3 +78,35 @@
 /(vendor|system/vendor)/lib64/mt6789/libhdrvideo\.so    u:object_r:same_process_hal_file:s0
 /(vendor|system/vendor)/lib64/mt6789/libscltm\.so    u:object_r:same_process_hal_file:s0
 /(vendor|system/vendor)/lib64/vendor\.mediatek\.hardware\.camera\.isphal@1\.0\.so    u:object_r:same_process_hal_file:s0
+
+# --- B21/B23, взято из xaveroprjkt/device_xiaomi_emerald (Apache-2.0) и сверено со стоком 305.
+# Домены определены в соседних *.te; имена доменов совпадают с `seclabel` стоковых rc
+# (init.mt6789.rc: `seclabel u:r:mi_thermald:s0`, init.batterysecret.rc: `seclabel u:r:batterysecret:s0`).
+/(vendor|system/vendor)/bin/batterysecret      u:object_r:batterysecret_exec:s0
+/(vendor|system/vendor)/bin/charger_region_server_bin u:object_r:batterysecret_exec:s0
+/(vendor|system/vendor)/bin/mi_thermald        u:object_r:mi_thermald_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.xiaomi\.sensor\.citsensorservice\.aidl u:object_r:vendor_hal_citsensorservice_xiaomi_default_exec:s0
+
+# Нейроплагины камеры: в стоке 305 размечены same_process_hal_file, в наших 59 метках их не было.
+# В 305 (и в нашем vendor) есть только lib64 и lib64/mt6789; строки для lib/ из патча xavero убраны.
+/(vendor|system/vendor)/lib64/libneuron_runtime\.so        u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib64/mt6789/libneuron_runtime\.so u:object_r:same_process_hal_file:s0
+
+# Узлы стока 305 (vendor_file_contexts), типов не было в нашей политике.
+/dev/xiaomi-fp          u:object_r:fingerprint_device:s0
+/dev/xiaomi-touch       u:object_r:touchfeature_device:s0
+/dev/xiaomi-touch-knock u:object_r:touchfeature_device:s0
+/dev/xiaomi-thp         u:object_r:touchfeature_device:s0
+/dev/mi_display/disp_feature u:object_r:vendor_displayfeature_device:s0
+
+# Dolby DMS (сток 305: /vendor/bin/hw/vendor.dolby.dms.service → hal_aidl_dms_default_exec)
+/(vendor|system/vendor)/bin/hw/vendor\.dolby\.dms\.service   u:object_r:hal_aidl_dms_default_exec:s0
+
+# --- B21, домены по стоковым `seclabel` (mi_ic.rc, mi_ric.rc, init.cit.rc,
+# init.project.rc, init.mt6789.rc). Метки путей — из vendor_file_contexts стока 305.
+/(vendor|system/vendor)/bin/MI_IC                   u:object_r:mi_ic_exec:s0
+/(vendor|system/vendor)/bin/MI_RIC                  u:object_r:mi_ric_exec:s0
+/(vendor|system/vendor)/bin/sns_sensors_test_and_cal u:object_r:sardiag_exec:s0
+/(vendor|system/vendor)/bin/mishow\.sh              u:object_r:mishow_exec:s0
+/(vendor|system/vendor)/bin/backlight_bin           u:object_r:backlight_exec:s0
+/(vendor|system/vendor)/bin/tptest_bin              u:object_r:backlight_exec:s0

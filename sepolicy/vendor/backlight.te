@@ -1,0 +1,21 @@
+# Домен стоковых утилит подсветки и самотеста: `/vendor/bin/backlight_bin` (service
+# backlightsvc) и `/vendor/bin/tptest_bin` (service tpselftestsvc), сток 305: init.cit.rc —
+# class main, user root, disabled, oneshot, group root system,
+# `seclabel u:r:backlight:s0`; запуск по `sys.backlight.trigger` / `sys.tpselftest.trigger`.
+# Заготовка B21. Отброшены правила на sysfs_thp_enabled, vendor_sar_calibrate_prop,
+# vendor_backlight_prop, proc_tp — таких типов у нас нет (см. отчёт).
+# genfscon для lcd-backlight не нужен: пути уже размечены sysfs_leds в
+# device/mediatek/sepolicy_vndr/base/vendor/genfs_contexts:314-326.
+type backlight, domain;
+type backlight_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(backlight)
+
+r_dir_file(backlight, sysfs_leds)
+
+allow backlight init:unix_stream_socket connectto;
+allow backlight property_socket:sock_file write;
+allow backlight hf_manager_device:chr_file rw_file_perms;
+allow backlight vendor_file:file r_file_perms;
+allow backlight sardiag_exec:file { read getattr execute open execute_no_trans entrypoint };
+allow backlight backlight_exec:file execute_no_trans;

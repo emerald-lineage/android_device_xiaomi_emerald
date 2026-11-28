@@ -1,0 +1,24 @@
+# Правила для стокового fingerprint HAL (bin/hw/android.hardware.biometrics.fingerprint-service.odm).
+# Взято из xaveroprjkt/device_xiaomi_emerald (ветка lineage-24.0, sepolicy/vendor/hal_fingerprint_default.te),
+# Apache-2.0, авторство сохранено. Типы AOSP (hal_server_domain, init_daemon_domain) уже даёт
+# system/sepolicy/vendor/hal_fingerprint_default.te — здесь только доп. права под 305.
+# B23: в стоке 112 правил против 24 у нас; это закрывает узлы, свойства и MiFx-сервис.
+add_service(hal_fingerprint_default, vendor_hal_fingerprint_service_xiaomi)
+add_hwservice(hal_fingerprint_default, xiaomi_fingerprint_hwservice)
+
+rw_dir_file(hal_fingerprint_default, sysfs_therm)
+rw_dir_file(hal_fingerprint_default, vendor_displayfeature_sysfs)
+rw_dir_file(hal_fingerprint_default, vendor_fingerprint_sysfs)
+
+allow hal_fingerprint_default input_device:dir r_dir_perms;
+allow hal_fingerprint_default input_device:chr_file rw_file_perms;
+allow hal_fingerprint_default mnt_vendor_file:dir r_dir_perms;
+allow hal_fingerprint_default persist_data_file:dir create_dir_perms;
+allow hal_fingerprint_default persist_data_file:file rw_file_perms;
+allow hal_fingerprint_default vendor_displayfeature_device:chr_file rw_file_perms;
+allow hal_fingerprint_default mitee_client_device:chr_file { ioctl read write open };
+allow hal_fingerprint_default xiaomi_fingerprint_hwservice:hwservice_manager { add find };
+allow hal_fingerprint_default self:capability sys_nice;
+allow hal_fingerprint_default touchfeature_device:chr_file rw_file_perms;
+
+set_prop(hal_fingerprint_default, vendor_fp_prop)

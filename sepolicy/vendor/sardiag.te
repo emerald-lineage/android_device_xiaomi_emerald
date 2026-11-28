@@ -1,0 +1,19 @@
+# Домен стоковых диагностических утилит: `/vendor/bin/sns_sensors_test_and_cal`
+# (сток 305: init.cit.rc — service sarcalisvc, init.project.rc — service sarcalibration;
+# class main, disabled, oneshot, group root system, `seclabel u:r:sardiag:s0`;
+# запуск по `sys.sarcali.trigger=1` / `vendor.sysctl.tx`). Заготовка B21.
+# Отброшены правила на sysfs_thp_enabled, vendor_sar_calibrate_prop, vendor_backlight_prop,
+# proc_tp (этих типов у нас нет) — см. отчёт.
+type sardiag, domain;
+type sardiag_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(sardiag)
+
+r_dir_file(sardiag, sysfs_leds)
+
+allow sardiag init:unix_stream_socket connectto;
+allow sardiag property_socket:sock_file write;
+allow sardiag hf_manager_device:chr_file rw_file_perms;
+allow sardiag vendor_file:file r_file_perms;
+allow sardiag backlight_exec:file { read getattr execute open execute_no_trans entrypoint };
+allow sardiag sardiag_exec:file execute_no_trans;

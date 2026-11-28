@@ -1,0 +1,3 @@
+# Типы сервисов стока 305, отсутствующие в нашей политике.
+type vendor_hal_fingerprint_service_xiaomi, service_manager_type;
+type xiaomi_fingerprint_hwservice, hwservice_manager_type;

@@ -1,0 +1,6 @@
+# Свойства стока 305, которых нет в нашей политике. Имена типов сверены с
+# vendor_property_contexts стока (vendor_fp_prop), остальные взяты из
+# xaveroprjkt/device_xiaomi_emerald (Apache-2.0).
+# vendor_thermal_prop уже объявлен в device/mediatek/sepolicy_vndr/base/vendor/property.te.
+vendor_restricted_prop(vendor_batterysecret_prop)
+vendor_restricted_prop(vendor_fp_prop)

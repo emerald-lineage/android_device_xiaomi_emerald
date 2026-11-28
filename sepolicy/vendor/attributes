@@ -1,0 +1,5 @@
+# Атрибуты HAL из xaveroprjkt/device_xiaomi_emerald (Apache-2.0). hal_server_domain/hal_client_domain
+# в AOSP 17 требуют существующих атрибутов <hal>_client / <hal>_server.
+attribute vendor_hal_citsensorservice_xiaomi;
+attribute vendor_hal_citsensorservice_xiaomi_client;
+attribute vendor_hal_citsensorservice_xiaomi_server;

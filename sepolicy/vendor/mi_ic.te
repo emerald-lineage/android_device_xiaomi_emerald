@@ -1,0 +1,26 @@
+# Домен стокового сервиса mi_ic (`/vendor/bin/MI_IC`, сток 305: mi_ic.rc,
+# `seclabel u:r:mi_ic:s0`; class main, disabled, oneshot, запускается по
+# `vendor.mi_ic.is.valid=1`). Заготовка B21: в permissive недостающее доберём по avc.
+# Типы и набор правил взяты из стока 305 (vendor_sepolicy.cil); свойства и
+# /data/vendor/mi_ic в стоке имеют свои типы (vendor_mi_ic_prop, mi_ic_data_file),
+# которых у нас нет — эти правила отброшены (см. отчёт).
+type mi_ic, domain, mlstrustedsubject;
+type mi_ic_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(mi_ic)
+
+r_dir_file(mi_ic, sysfs)
+r_dir_file(mi_ic, sysfs_memory)
+
+allow mi_ic console_device:chr_file rw_file_perms;
+allow mi_ic init:unix_stream_socket connectto;
+allow mi_ic property_socket:sock_file write;
+allow mi_ic tmpfs:dir search;
+allow mi_ic mnt_user_file:dir search;
+allow mi_ic mnt_user_file:lnk_file read;
+allow mi_ic storage_file:lnk_file read;
+allow mi_ic sysfs_devices_block:dir search;
+allow mi_ic vendor_shell_exec:file { read getattr execute open execute_no_trans };
+allow mi_ic vendor_toolbox_exec:file { read getattr execute open execute_no_trans };
+allow mi_ic vendor_file:file execute_no_trans;
+allow mi_ic self:capability { chown fsetid };

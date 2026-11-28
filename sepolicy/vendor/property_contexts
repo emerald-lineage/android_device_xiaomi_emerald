@@ -1,0 +1,8 @@
+# Из xaveroprjkt/device_xiaomi_emerald (Apache-2.0); имена свойств сверены со стоком 305,
+# тип fingerprint взят стоковый (vendor_fp_prop вместо их vendor_fingerprint_prop).
+persist.vendor.accelerate.charge  u:object_r:vendor_batterysecret_prop:s0
+vendor.sys.thermal.data.path      u:object_r:vendor_thermal_prop:s0
+persist.vendor.goodix.            u:object_r:vendor_fp_prop:s0
+persist.vendor.sys.fp.            u:object_r:vendor_fp_prop:s0
+ro.hardware.fp.                   u:object_r:vendor_fp_prop:s0
+vendor.fps_hal.                   u:object_r:vendor_fp_prop:s0

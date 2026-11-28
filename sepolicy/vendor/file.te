@@ -1,0 +1,17 @@
+# Типы, взятые из xaveroprjkt/device_xiaomi_emerald (ветка lineage-24.0, sepolicy/vendor/file.te),
+# Apache-2.0, авторство сохранено. Сверено со стоком 305: пути и имена совпадают с
+# vendor_file_contexts / vendor_sepolicy.cil, тип `vendor_sysfs_thermalconfig` в стоке отсутствует
+# (в стоке sconfig попадает под родовой sysfs; у xavero — свой тип).
+
+# Display feature (vendor.xiaomi.hardware.displayfeature + /vendor/bin/displayfeature)
+type vendor_displayfeature_device, dev_type;
+type vendor_displayfeature_sysfs, fs_type, sysfs_type;
+
+# Fingerprint (FOD status)
+type vendor_fingerprint_sysfs, sysfs_type, fs_type;
+
+# Touchfeature (/dev/xiaomi-touch, /dev/xiaomi-thp, /dev/xiaomi-touch-knock — метка стока 305)
+type touchfeature_device, dev_type;
+
+# Thermal (mi_thermald читает /sys/devices/virtual/thermal/thermal_message/sconfig)
+type vendor_sysfs_thermalconfig, sysfs_type, fs_type;

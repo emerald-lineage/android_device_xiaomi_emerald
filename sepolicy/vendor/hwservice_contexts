@@ -1,0 +1,2 @@
+# Из стока 305 (vendor_hwservice_contexts); имя типа стоковое, не hal_xiaomi_* как у xavero.
+vendor.xiaomi.hardware.fx.tunnel::IMiFxTunnel   u:object_r:xiaomi_fingerprint_hwservice:s0

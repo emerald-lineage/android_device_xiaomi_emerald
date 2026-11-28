@@ -1,0 +1,4 @@
+# Клиентская сторона Dolby DMS (адаптировано из xaveroprjkt/device_xiaomi_emerald, hal_audio_default.te,
+# Apache-2.0): аудио-HAL должен находить и вызывать AIDL DMS стока 305.
+allow hal_audio_default hal_aidl_dms_service:service_manager find;
+binder_call(hal_audio_default, hal_aidl_dms_default)
