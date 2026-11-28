@@ -49,7 +49,7 @@ system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 # (vendor_dlkm) is not here any more: the platform makes it itself.
 # MODULE=emerald_blob_<name> keeps the file name (stem) while giving the prebuilt module a name no
 # module of the source tree has; MAKE_COPY_RULE_ONLY installs a file without a module.
-# 655 libraries are not listed: the platform installs its own build of them into the vendor image
+# 656 libraries are not listed: the platform installs its own build of them into the vendor image
 # (FROM_SOURCE in vendor-blobs/list.py, see there for why and for the ABI check).
 # The static RROs (/overlay/*.apk) are in the device tree: prebuilts/overlays/.
 vendor/apex/com.google.android.widevine.nonupdatable.apex
@@ -819,7 +819,6 @@ vendor/etc/init/boardid.rc
 vendor/etc/init/bootperf.rc
 vendor/etc/init/camerahalserver.rc
 vendor/etc/init/charger_region_server.rc
-vendor/etc/init/chipinfo_init.rc
 vendor/etc/init/ddr_training.rc
 vendor/etc/init/display.rc
 vendor/etc/init/dmc_core.rc

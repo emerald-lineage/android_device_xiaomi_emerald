@@ -27,8 +27,13 @@
 # свой VINTF-фрагмент рядом со стоковым thermal-mediatek.xml — оба IThermal/default @3, libvintf
 # отверг манифест устройства целиком (NULL VINTF MANIFEST, все vendor-HAL — SIGABRT). Бинарник,
 # rc и фрагмент теперь стоковые, из блобов (vendor-blobs/list.py, путь ушёл из FROM_SOURCE).
+# chipinfo (28.11, ревьювер install): /bin/chipinfo в FROM_SOURCE, а модуля не было в PRODUCT_PACKAGES —
+# образ остался со стоковым chipinfo_init.rc и без скрипта; `wait_for_prop ro.vendor.soc.model_ready 1`
+# без таймаута повесил бы init на post-fs-data. Стоковый скрипт = hardware/mediatek/chipinfo/chipinfo.sh,
+# rc модуля = стоковому слово в слово (стоковый rc снят из блобов, list.py).
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey \
+    chipinfo \
     android.hardware.ir-service.example \
     android.hardware.memtrack-service.mediatek \
     android.hardware.nfc2-service.nxp \

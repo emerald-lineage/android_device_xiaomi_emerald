@@ -16,7 +16,7 @@ Rules, all applied from scratch so the result does not depend on earlier fixes:
     (MODULE=emerald_blob_...) with the file name kept by stem, so a blob never fights a source module
     for the vendor partition (AIDL/HIDL interface libraries, vendor_available libraries);
   * libraries that exist in the tree only as system_ext modules are plain copies too;
-  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 655 of
+  * paths the platform installs into the vendor image itself are not listed at all (FROM_SOURCE, 656 of
     them): soong packs the vendor variant of every vendor_available module in PRODUCT_PACKAGES, and a
     second rule for the same path is a kati error.
 """
@@ -48,13 +48,13 @@ COPY_RULE_ONLY = {
 # makefile runs before the inherited lists are merged, and `overrides` only affects fsgen packing - the
 # install rule still comes from the module itself (checked 25.11: passwd_vendor and toybox_vendor stayed
 # installed while listed in `overrides` of the phony module we had). So these paths come from the source
-# tree, not from the image: 655 of them - 401 from the first wave (20 name clashes, 388 reported by kati
+# tree, not from the image: 656 of them - 401 from the first wave (20 name clashes, 388 reported by kati
 # on the first vendorimage build that got through soong, 25.11 19:47, minus 7 kept as blobs back then),
 # 245 found by comparing the final list against installs-lineage_emerald.mk (vendor paths this list
 # still wrote while the platform installed them, both module and copy-rule ones), 2 more libmnl
 # (mt6789 copies: the platform's libmnl.so clashed with our symlinks), 4 vintf fragments the make side
 # copies for the platform HALs, 5 aconfig files (packaging/flags.mk), and minus the Widevine apex, which
-# only we install, so it stays a blob. Two of the 655 (bpf/filterPowerSupplyEvents.o, linker.config.pb)
+# only we install, so it stays a blob. Two of the 656 (bpf/filterPowerSupplyEvents.o, linker.config.pb)
 # come from the full duplicate list of 26.11: kati stops at the first one, so the whole list was
 # collected with BUILD_BROKEN_DUP_RULES. The third path of that list, the `lib/modules` symlink, is not
 # in FROM_SOURCE: it was ours by hand in vendor_symlinks/Android.bp, and the platform makes it itself.
@@ -83,6 +83,9 @@ FROM_SOURCE = {
     '/bin/boringssl_self_test32',
     '/bin/boringssl_self_test64',
     '/bin/chipinfo',
+    # 28.11: the stock rc is word for word the platform chipinfo.rc; the module (PRODUCT_PACKAGES,
+    # vendor-platform-libs.mk) brings its own, so the stock copy would run chipinfo twice
+    '/etc/init/chipinfo_init.rc',
     '/bin/conninfra_loader',
     '/bin/dmabuf_dump',
     '/bin/dumpsys',
