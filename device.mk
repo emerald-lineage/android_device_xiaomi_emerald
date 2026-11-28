@@ -392,6 +392,19 @@ $(call inherit-product, vendor/gapps/arm64/arm64-vendor.mk)
 # обоснование и правило — в самом файле).
 $(call inherit-product, device/xiaomi/emerald/vendor-platform-libs.mk)
 
+# init.mt6789.usb.rc (hardware/mediatek/aidl/gadget, vendor: true): без него init не поднимает
+# USB-гаджет — телефон грузится, но USB (adb, MTP, зарядка-режимы) не появляется вовсе. В стоке файл
+# был в разделе, а `FROM_SOURCE` исключил его из блобов как «ставит платформа»; платформа ставит его
+# только если модуль в PRODUCT_PACKAGES. Найдено 28.11 первой заливкой: без adb, экран живой (B22).
+PRODUCT_PACKAGES += \
+    init.mt6789.usb.rc
+
+# Платформенный init.mediatek.usb.rc создаёт гаджет только под условием
+# `on early-init && property:vendor.usb.controller=musb-hdrc`; стоковый файл ставил это свойство сам
+# (setprop vendor.usb.controller "musb-hdrc"), у платформенного такой строки нет. Без него UDC уходит
+# на 16751000.usb0 и USB не появляется. Свойство — из build.prop раздела, чтобы было к early-init.
+PRODUCT_VENDOR_PROPERTIES += vendor.usb.controller=musb-hdrc
+
 # Static RROs of the stock vendor partition (modules in prebuilts/overlays/Android.bp: a prebuilt APK
 # cannot be a copy rule and android_app_import cannot install into /vendor/overlay).
 PRODUCT_PACKAGES += \
